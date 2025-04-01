@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="scriptCadastro.js" defer></script>
+    <link rel="icon" href="iconvegetal.png">
+    <title>NutriFit Cadastro</title>
+</head>
+<body class="img">
+    <div class="caixote">
+        <h2>Cadastro do profissional</h2>
+    <form id="cadastro" method="POST" onsubmit="return ValidarFormulario2()">
+        
+        <label for="Nome">Nome completo</label>
+        <input id="name" type="name" name="name" required placeholder="Insira o seu nome completo">
+     <br>
+        <label for="Email">E-mail</label>
+        <input id="email" type="email" name="email" required placeholder="Informe o seu e-mail">
+     <br>
+        <label for="CPF">CPF</label>
+        <input type="text" id="cpf" name="cpf" required placeholder="Informe seu CPF" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Digite no formato XXX.XXX.XXX-XX">
+     <br>
+        <label for="Data de nascimento">Data de nascimento</label>
+        <input id="data" type="date" name="date" required placeholder="Insira sua data de nascimento">
+     <br>
+        <label for="Telefone">Telefone</label>
+        <input id="telefone" type="tel" name="telefone" required placeholder="Informe seu telefone" pattern="\(\d{2}\) \d{4,5}-\d{4}" maxlength="15">
+     <br>
+        <label for="password">Senha</label>
+        <input id="senha" type="password" name="password" required placeholder="Informe a sua senha">
+     <br>
+        <label for="confirmar-senha">Confirmar senha</label>
+        <input id="senha" type="password" name="confirmar-senha" required placeholder="Confirma a sua senha">
+     <br>
+        <label for="gênero">Genêro</label>
+        <select id="genero" name="genero">
+            <option value="masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outro">Outro</option>
+        </select>
+        
+        <button id="btnEnviar" type="submit">Enviar</button> 
+       <p class="login">Já tenho uma <u><a href="pLogin.html">conta</a></u></p>
+    </div>
+</body>
+</html>
