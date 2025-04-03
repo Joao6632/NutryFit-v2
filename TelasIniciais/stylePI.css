@@ -3,6 +3,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+body {
+    overflow: hidden;
+    height: 100%;
+}
+
 .fundo5 {
     background-image: url("cadastro.png");
     background-size: cover;
@@ -29,6 +35,33 @@ nav {
     width: 150px; 
     height: auto;
 }
+.logout {
+    width: 35px;
+    display: flex;
+    margin: 20px 20px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.botaologout {
+    background-color: #5A662A;
+    width: 70px;
+    height: 60px;
+    margin: 0; 
+    display: flex;
+    position: fixed; 
+    top: 20px; 
+    right: 20px; 
+    border-radius: 10px;
+    justify-content: center;
+    margin-top: 75px;
+    align-items: center;
+    transition: transform 0.2s ease-in-out;
+}
+.botaologout:hover {
+    transform: scale(1.1);
+}
+
 
 .titulo {
     font-family: Georgia, 'Times New Roman', Times, serif;
