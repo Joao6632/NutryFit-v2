@@ -1,0 +1,67 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+#dadoscadastro {
+    position: relative;
+    background-color: #e2dfd9;
+    border-radius: 30px;
+    left: 250px;
+    height: 30%;
+    align-items: center;
+    justify-content: center;
+    width: 450px;
+    padding: 10px 20px 30px 20px; 
+    box-shadow: 5px 2px 10px;
+    transition: background 0.3s, transform 0.3s;
+}
+
+#dadoscadastro:hover {
+    background: #a8a4a4;    
+    transform: scale(1.05);
+}
+
+p {
+    padding-left: 15px;
+    font-family: sans-serif,'Times New Roman', Times, serif;
+    line-height: 1.0;
+}
+h2 {
+    text-align: center;
+}
+.picture {
+    background-image: url("Imgs/img2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px;
+    background: #9f907e;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    box-flex: flex;
+    background-color: #756a5d;
+    justify-content: center;
+    padding: 10px 15px;
+}
+
+.btn-bottom-right {
+    position: absolute;
+    bottom: 20px; 
+    right: 30px;  
+}

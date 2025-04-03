@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f5f2;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; 
+}
+
+.caixa {
+    background-color: #e2dfd9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    margin-right: -250px;
+    width: 90%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    color: #2e4a3d;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 20px;
+    color: #555;
+}
+
+p {
+    font-size: 16px;
+    color: #666;
+    text-align: justify;
+}
+.icons a {
+    text-decoration: none;
+    font-size: 24px;
+    color: #333;
+}
+
+button {
+    width: 30%;
+    margin-top: 15px;
+    padding: 10px;
+    background: #9f907e;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+button:hover {
+    box-flex: flex;
+    background-color: #756a5d;
+    justify-content: center;
+    padding: 10px 15px;
+}
+
+.imagemm {
+    background-image: url("Imgs/foto3.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;   
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .caixa {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}

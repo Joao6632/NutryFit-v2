@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleCadastro.css">
+    <script src="script1.js" defer></script>
+    <link rel="icon" href="iconvegetal.png">
+    <title>Informações Cadastro</title>
+</head>
+<body class="picture">   
+    <div id="dadoscadastro" class="cadastro">
+        
+        <script>
+            
+            let nomeuser = localStorage.getItem("nome");
+            let emailuser = localStorage.getItem("email");
+            let senhauser = localStorage.getItem("senha");
+            let cpf = localStorage.getItem("cpf");
+            let datanascimento = localStorage.getItem("data");
+            let numtelefone = localStorage.getItem("telefone");
+            let genero = localStorage.getItem("genero");
+
+            
+            if (nomeuser && emailuser && cpf && datanascimento && numtelefone && genero) {
+                
+                document.getElementById("dadoscadastro").innerHTML = `
+                <h2>Informações de Cadastro do paciente</h2>
+                    <p><strong>Nome:</strong> ${nomeuser}</p>
+                    <p><strong>Email:</strong> ${emailuser}</p>
+                    <p><strong>Senha:</strong> ${senhauser}</p>
+                    <p><strong>CPF:</strong> ${cpf}</p>
+                    <p><strong>Data de Nascimento:</strong> ${datanascimento}</p>
+                    <p><strong>Telefone:</strong> ${numtelefone}</p>
+                    <p><strong>Gênero:</strong> ${genero}</p>
+                `;
+            } else {
+                
+                document.getElementById("dadoscadastro").style.display = "none";
+            }
+        </script>
+
+        <button class="btm-bottom-right" onclick="window.location.href='pLoginCliente.html'">Próximo</button>
+    </div>
+</body>
+</html>
