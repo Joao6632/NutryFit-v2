@@ -21,8 +21,12 @@ img{
     display: flex;
     justify-content: end;
     margin-left: 700px;
+<<<<<<< HEAD
     margin-top: 5px;
     position: fixed;
+=======
+    margin-top: 100px;
+>>>>>>> 27c50a67db095eafbff4af0e437828d881f4a64f
 
 }
 h1{
@@ -31,6 +35,7 @@ h1{
     display: grid;
     justify-content: center;
     align-items: end;
+<<<<<<< HEAD
     margin-top: 40px;
 
 }
@@ -55,3 +60,8 @@ h1{
 .voltar:hover{
     transform: scale(1.1);
 }
+=======
+    margin-top: 90px;
+
+}
+>>>>>>> 27c50a67db095eafbff4af0e437828d881f4a64f
