@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutryFit - Login/Cadastro</title>
+    <link rel="stylesheet" href="LoginCad.css">
+</head>
+<body>
+    <div class="container" id="container">
+        <!-- Painel azul deslizante -->
+        <div class="sliding-panel" id="slidingPanel">
+            <div class="panel-content" id="panelContent">
+                <h2 id="panelTitle">Já possui uma<br>conta?</h2>
+                <button class="switch-button" id="switchButton">Entre em uma conta existente!</button>
+            </div>
+        </div>
+
+        <!-- Formulário de Cadastro (lado direito inicialmente) -->
+        <div class="form-section signup-section">
+            <div class="form-container" id="signupForm">
+                <h1>Para começar, crie<br>sua conta!</h1>
+                <p class="subtitle">Insira as informações da sua nova conta!</p>
+                
+                <form>
+                    <div class="form-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" placeholder="Digite seu nome">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email-signup">Email</label>
+                        <input type="email" id="email-signup" placeholder="Digite seu email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="senha-signup">Senha</label>
+                        <input type="password" id="senha-signup" placeholder="Crie sua senha">
+                    </div>
+                    
+                    <button type="submit" class="submit-button">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Formulário de Login (lado esquerdo, inicialmente escondido atrás do painel) -->
+        <div class="form-section login-section">
+            <div class="form-container" id="loginForm">
+                <h1>Olá, Bem vindo(a)<br>novamente!</h1>
+                <p class="subtitle">Insira suas credenciais para realizar o Login.</p>
+                
+                <form>
+                    <div class="form-group">
+                        <label for="email-login">Email</label>
+                        <input type="email" id="email-login" placeholder="Digite seu email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="senha-login">Senha</label>
+                        <input type="password" id="senha-login" placeholder="Digite sua senha">
+                    </div>
+                    
+                    <button type="submit" class="submit-button">Entrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const slidingPanel = document.getElementById('slidingPanel');
+        const switchButton = document.getElementById('switchButton');
+        const panelTitle = document.getElementById('panelTitle');
+        const panelContent = document.getElementById('panelContent');
+        
+        let isLoginMode = false;
+
+        switchButton.addEventListener('click', () => {
+            // Adiciona classe de animação
+            container.classList.add('animating');
+            
+            if (!isLoginMode) {
+                // Vai para modo login - painel desliza para direita
+                slidingPanel.classList.add('move-right');
+                
+                // Após um pequeno delay, muda o conteúdo do painel
+                setTimeout(() => {
+                    panelTitle.innerHTML = 'Não tem uma conta? <br>Cadastre-se agora!';
+                    switchButton.textContent = 'Crie uma conta!';
+                }, 500);
+                
+                isLoginMode = true;
+            } else {
+                // Volta para modo cadastro - painel desliza para esquerda
+                slidingPanel.classList.remove('move-right');
+                
+                // Após um pequeno delay, muda o conteúdo do painel
+                setTimeout(() => {
+                    panelTitle.innerHTML = 'Já possui uma<br>conta?';
+                    switchButton.textContent = 'Entre em uma conta existente!';
+                }, 500);
+                
+                isLoginMode = false;
+            }
+            
+            // Remove classe de animação após a transição
+            setTimeout(() => {
+                container.classList.remove('animating');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
