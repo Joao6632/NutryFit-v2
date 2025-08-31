@@ -4,10 +4,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const sidebarToggle = document.getElementById('sidebarToggle');
     const navLinks = document.querySelectorAll('.nav-link');
 
+    // 🔹 Recupera estado salvo no localStorage
+    const savedState = localStorage.getItem('sidebarState');
+    if (savedState === 'collapsed') {
+        sidebar.classList.add('collapsed');
+        if (mainContent) mainContent.classList.add('sidebar-collapsed');
+    }
+
     // Toggle sidebar
-    sidebarToggle?.addEventListener('click', function() {
-        sidebar?.classList.toggle('collapsed');
+    sidebarToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('collapsed');
         if (mainContent) mainContent.classList.toggle('sidebar-collapsed');
+
+        // 🔹 Salva estado no localStorage
+        localStorage.setItem(
+            'sidebarState',
+            sidebar.classList.contains('collapsed') ? 'collapsed' : 'expanded'
+        );
     });
 
     // Navegação entre páginas
@@ -16,15 +29,23 @@ document.addEventListener("DOMContentLoaded", () => {
             const url = this.getAttribute('href');
 
             if (url.startsWith('#')) {
+                // só âncoras
                 e.preventDefault();
                 navLinks.forEach(nav => nav.classList.remove('active'));
                 this.classList.add('active');
             } else {
+                // 🔹 Salva estado ANTES de trocar de página
+                localStorage.setItem(
+                    'sidebarState',
+                    sidebar.classList.contains('collapsed') ? 'collapsed' : 'expanded'
+                );
+                // e troca de página
                 window.location.href = url;
             }
         });
     });
 });
+
 
 // === SISTEMA DE PACIENTES ===
 class SistemaPacientes {
@@ -32,16 +53,10 @@ class SistemaPacientes {
         this.pacientes = this.carregarPacientes();
         this.pacientesFiltrados = [];
         this.pacienteAtual = null;
-        this.proximoId = this.gerarProximoId();
+        this.proximoId = this.carregarProximoId();
         this.init();
     }
 
-    init() {
-        this.bindEvents();
-        this.renderPacientes();
-    }
-
-    // === LOCALSTORAGE - CORRIGIDO ===
     carregarPacientes() {
         try {
             const dados = localStorage.getItem('nutrifit-pacientes');
@@ -55,25 +70,43 @@ class SistemaPacientes {
     salvarPacientes() {
         try {
             localStorage.setItem('nutrifit-pacientes', JSON.stringify(this.pacientes));
-            console.log('Pacientes salvos com sucesso!'); // Debug
         } catch (error) {
             console.error('Erro ao salvar pacientes:', error);
-            this.mostrarMensagem('Erro ao salvar dados. Tente novamente.', 'error');
         }
     }
 
-    gerarProximoId() {
+    carregarProximoId() {
         try {
             const ultimoId = localStorage.getItem('nutrifit-ultimo-id');
-            const novoId = ultimoId ? parseInt(ultimoId) + 1 : 1;
-            localStorage.setItem('nutrifit-ultimo-id', novoId.toString());
-            return novoId;
+            if (ultimoId) {
+                return parseInt(ultimoId);
+            }
+            // Se não tem ID salvo, calcular baseado nos pacientes existentes
+            const pacientes = this.carregarPacientes();
+            return pacientes.length > 0 ? Math.max(...pacientes.map(p => p.id)) + 1 : 1;
         } catch (error) {
-            console.error('Erro ao gerar próximo ID:', error);
-            // Fallback para método antigo se localStorage falhar
-            if (this.pacientes.length === 0) return 1;
-            return Math.max(...this.pacientes.map(p => p.id)) + 1;
+            console.error('Erro ao carregar próximo ID:', error);
+            return 1;
         }
+    }
+
+    salvarProximoId() {
+        try {
+            localStorage.setItem('nutrifit-ultimo-id', this.proximoId.toString());
+        } catch (error) {
+            console.error('Erro ao salvar próximo ID:', error);
+        }
+    }
+
+    init() {
+        this.bindEvents();
+        this.renderPacientes();
+    }
+
+    gerarProximoId() {
+        const novoId = this.proximoId++;
+        this.salvarProximoId();
+        return novoId;
     }
 
     bindEvents() {
@@ -157,7 +190,6 @@ class SistemaPacientes {
             <div class="paciente-card" data-id="${paciente.id}" style="cursor: pointer;">
                 <div class="paciente-content">
                     <div class="paciente-nome">${paciente.nome}</div>
-                    <div class="paciente-sexo">${paciente.sexo}</div>
                 </div>
                 <div class="paciente-acoes">
                     <button class="btn-info" title="Ver detalhes">
@@ -359,20 +391,21 @@ Detalhes de ${paciente.nome}:
             const index = this.pacientes.findIndex(p => p.id == editandoId);
             if (index !== -1) {
                 this.pacientes[index] = { ...this.pacientes[index], ...formData };
+                this.salvarPacientes();
                 this.mostrarMensagem('Paciente atualizado com sucesso!', 'success');
             }
         } else {
             // Adicionando novo paciente
             const novoPaciente = {
-                id: this.proximoId++,
+                id: this.gerarProximoId(),
                 ...formData,
                 dataCadastro: new Date().toISOString()
             };
             this.pacientes.push(novoPaciente);
+            this.salvarPacientes();
             this.mostrarMensagem('Paciente adicionado com sucesso!', 'success');
         }
 
-        this.salvarPacientes();
         this.renderPacientes();
         
         // Fechar modal
@@ -580,38 +613,9 @@ Detalhes de ${paciente.nome}:
             }
         }, 4000);
     }
-
-    // Método para debug - verificar dados salvos
-    verificarDados() {
-        console.log('Dados no localStorage:', localStorage.getItem('nutrifit-pacientes'));
-        console.log('Pacientes carregados:', this.pacientes);
-        console.log('Próximo ID:', localStorage.getItem('nutrifit-ultimo-id'));
-    }
-
-    // Método para limpar todos os dados (útil para testes)
-    limparTodosOsDados() {
-        if (confirm('Tem certeza que deseja limpar TODOS os dados? Esta ação não pode ser desfeita.')) {
-            localStorage.removeItem('nutrifit-pacientes');
-            localStorage.removeItem('nutrifit-ultimo-id');
-            this.pacientes = [];
-            this.pacientesFiltrados = [];
-            this.proximoId = 1;
-            this.renderPacientes();
-            this.mostrarMensagem('Todos os dados foram limpos!', 'info');
-        }
-    }
 }
 
 // Inicializar sistema quando a página carregar
 document.addEventListener('DOMContentLoaded', () => {
     window.sistemaPacientes = new SistemaPacientes();
-    
-    // Adicionar métodos de debug ao console (apenas em desenvolvimento)
-    if (typeof window !== 'undefined') {
-        window.debugPacientes = {
-            verificar: () => window.sistemaPacientes.verificarDados(),
-            limpar: () => window.sistemaPacientes.limparTodosOsDados()
-        };
-        console.log('Debug disponível: debugPacientes.verificar() e debugPacientes.limpar()');
-    }
 });
