@@ -1,0 +1,800 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #e3ece8;
+}
+
+/* === SIDEBAR === */
+.sidebar-custom {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    background: #e3ece8;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+    border-radius: 0 12px 12px 0;
+    transition: width 0.3s ease;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.sidebar-custom.collapsed {
+    width: 70px;
+}
+
+/* === BOTÃO DE TOGGLE === */
+.sidebar-toggle {
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #6c8197;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.sidebar-toggle:hover {
+    color: #4a5d6f;
+}
+
+/* === CONTEÚDO SIDEBAR === */
+.sidebar-content {
+    padding: 60px 1rem 1rem 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* === LINKS SIDEBAR === */
+.sidebar-custom .nav-link {
+    font-size: 1.1rem;
+    padding: 10px 18px;
+    border-radius: 8px;
+    margin: 4px 8px;
+    display: flex;
+    align-items: center;
+    color: #4a5d6f;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.sidebar-custom .nav-link.active {
+    background: #6c8197 !important;
+    color: #fff !important;
+}
+
+.sidebar-custom .nav-link:hover {
+    background: #bfcad2;
+    color: #222;
+}
+
+/* === ÍCONES SIDEBAR === */
+.sidebar-custom .nav-link .bi {
+    font-size: 1.3rem;
+    margin-right: 12px;
+    transition: margin-right 0.3s ease;
+}
+
+.sidebar-custom.collapsed .nav-link {
+    justify-content: center;
+    padding: 10px;
+}
+
+.sidebar-custom.collapsed .nav-link .bi {
+    margin-right: 0;
+}
+
+/* === TEXTO SIDEBAR === */
+.sidebar-custom .nav-link .nav-text {
+    opacity: 1;
+    transition: opacity 0.2s ease, width 0.3s ease;
+}
+
+.sidebar-custom.collapsed .nav-link .nav-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+/* === LISTA SIDEBAR === */
+.nav-pills {
+    flex: 1;
+}
+
+/* === LOGOUT SIDEBAR === */
+.logout-section {
+    margin-top: auto;
+    margin-bottom: 2.2rem;
+}
+
+/* === MAIN CONTENT === */
+.main-content {
+    margin-left: 250px;
+    padding: 40px;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.sidebar-collapsed {
+    margin-left: 70px;
+}
+
+/* === CONTAINER PACIENTES === */
+.container-pacientes {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.container-pacientes h2 {
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+/* === BARRA DE PESQUISA MODERNA === */
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 15px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 16px 12px 45px;
+    border: none;
+    border-radius: 25px;
+    background-color: #c5c5c5;
+    font-size: 16px;
+    color: #666;
+    outline: none;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: #888;
+    font-size: 16px;
+}
+
+.search-input:focus {
+    background-color: #b8b8b8;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(108, 129, 151, 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 18px;
+    pointer-events: none;
+}
+
+/* === TÍTULO PACIENTES === */
+.titulo-pacientes {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin: 30px 0;
+    font-weight: normal;
+}
+
+/* === LISTA DE PACIENTES (SIMPLIFICADA) === */
+.pacientes-lista {
+    margin-bottom: 40px;
+}
+
+.paciente-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #c5d4c8;
+    border-radius: 12px;
+    padding: 18px 25px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.paciente-card:hover {
+    background: #b8c7bb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.paciente-content {
+    flex: 1;
+}
+
+.paciente-nome {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.paciente-sexo {
+    font-size: 14px;
+    color: #666;
+}
+
+/* === AÇÕES SIMPLIFICADAS === */
+.paciente-acoes {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-info {
+    background: none;
+    border: none;
+    color: #6c8197;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.btn-info:hover {
+    background: rgba(108, 129, 151, 0.1);
+    color: #4a5d6f;
+    transform: scale(1.1);
+}
+
+/* Esconde os outros botões que não são mais necessários */
+.btn-editar,
+.btn-excluir {
+    display: none;
+}
+
+/* === PACIENTE VAZIO === */
+.paciente-vazio {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+    font-style: italic;
+}
+
+/* === BOTÃO NOVO PACIENTE === */
+.novo-paciente {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.btn-novo-paciente {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #6c8197;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-novo-paciente:hover {
+    background: #5a6f86;
+}
+
+/* === MODAL CUSTOMIZADO === */
+.modal-custom {
+    background: #e8f0ec;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-info-custom {
+    background: #e8f0ec;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    min-height: 600px;
+}
+
+.modal-header {
+    border-bottom: 2px solid #ddd;
+    padding: 20px 30px;
+    background: #e8f0ec;
+    border-radius: 15px 15px 0 0;
+}
+
+.modal-title {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+    font-weight: 600;
+}
+
+.btn-close-custom {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.btn-close-custom:hover {
+    background: #ddd;
+    color: #333;
+}
+
+.modal-body {
+    padding: 30px;
+    background: #e8f0ec;
+}
+
+.modal-info-custom .modal-body {
+    padding: 25px 30px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    border-top: 2px solid #ddd;
+    padding: 20px 30px;
+    background: #e8f0ec;
+    border-radius: 0 0 15px 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.modal-info-custom .modal-footer {
+    padding: 20px 30px;
+    border-top: 2px solid #ddd;
+}
+
+/* === INFO CONTENT === */
+.info-content {
+    color: #333;
+}
+
+.info-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+
+.info-group {
+    margin-bottom: 15px;
+}
+
+.info-group strong {
+    display: block;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.info-group span {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+    white-space: pre-line;
+}
+
+/* === SEÇÃO MÉTRICAS === */
+.metricas-section {
+    border-top: 2px solid #ddd;
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.metricas-section h4 {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.metricas-row {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+}
+
+.metrica-item {
+    text-align: center;
+}
+
+.metrica-item strong {
+    display: block;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.metrica-item span {
+    color: #666;
+    font-size: 14px;
+}
+
+/* === SEÇÃO OBJETIVOS === */
+.objetivos-section {
+    border-top: 2px solid #ddd;
+    padding-top: 20px;
+}
+
+.objetivos-section h4 {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.objetivos-section p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    font-style: italic;
+}
+
+/* === BOTÕES DO MODAL DE INFO === */
+.btn-excluir-paciente {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-excluir-paciente:hover {
+    background: #c82333;
+}
+
+.btn-avaliacoes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #6c8197;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-avaliacoes:hover {
+    background: #5a6f86;
+}
+
+/* === FORMULÁRIO === */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #333;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background: #f5f5f5;
+    font-size: 14px;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(108, 129, 151, 0.3);
+}
+
+.form-control::placeholder {
+    color: #999;
+}
+
+.form-control[readonly] {
+    background: #e9e9e9;
+    color: #666;
+}
+
+/* === SEÇÃO MÉTRICAS DO FORM === */
+.metrics-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px solid #ddd;
+}
+
+.metrics-section h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* === ÍCONE DE INFO === */
+.info-icon-container {
+    position: relative;
+}
+
+.info-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c8197;
+    font-size: 16px;
+    cursor: help;
+}
+
+/* === CHECKBOX GROUP === */
+.checkbox-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-check-input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+}
+
+.form-check-label {
+    font-size: 14px;
+    color: #333;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* === BOTÃO ADICIONAR === */
+.btn-adicionar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #6c8197;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    min-width: 150px;
+    justify-content: center;
+}
+
+.btn-adicionar:hover {
+    background: #5a6f86;
+}
+
+/* === TEXTAREA === */
+textarea.form-control {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* === SELECT CUSTOMIZADO === */
+select.form-control {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px 12px;
+    padding-right: 40px;
+    appearance: none;
+    cursor: pointer;
+}
+
+/* === ALERTAS === */
+.alert {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.alert-info {
+    background-color: #cce5ff;
+    border: 1px solid #99d6ff;
+    color: #004085;
+}
+
+/* === ANIMAÇÕES === */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.paciente-card {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* === ESTADOS DE LOADING === */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.btn-adicionar.loading::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* === VALIDAÇÃO === */
+.form-control.is-invalid {
+    border: 2px solid #dc3545;
+    background-color: #fff5f5;
+}
+
+.form-control.is-valid {
+    border: 2px solid #28a745;
+    background-color: #f8fff8;
+}
+
+/* === TOOLTIP CUSTOMIZADO === */
+.info-icon:hover::after {
+    content: 'Informações sobre atividades físicas do paciente';
+    position: absolute;
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    bottom: 130%;
+    right: 0;
+    z-index: 1000;
+    transform: translateX(50%);
+}
+
+.info-icon:hover::before {
+    content: '';
+    position: absolute;
+    border: 6px solid transparent;
+    border-top-color: #333;
+    bottom: 124%;
+    right: 8px;
+    z-index: 1001;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 70px;
+        padding: 20px;
+    }
+    
+    .sidebar-custom {
+        width: 70px;
+    }
+    
+    .sidebar-custom .nav-link .nav-text {
+        opacity: 0;
+        width: 0;
+    }
+    
+    .search-container {
+        max-width: 100%;
+    }
+    
+    .container-pacientes {
+        padding: 15px;
+    }
+    
+    .paciente-card {
+        padding: 15px 20px;
+    }
+    
+    .paciente-nome {
+        font-size: 16px;
+    }
+    
+    .paciente-sexo {
+        font-size: 13px;
+    }
+    
+    .btn-info {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
+    
+    .modal-dialog {
+        margin: 10px;
+        max-width: none;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .modal-header, .modal-footer {
+        padding: 15px 20px;
+    }
+    
+    .info-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .metricas-row {
+        flex-direction: column;
+        gap: 20px;
+    }
+}

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="Paci.css">
+    <title>NutryFit - Pacientes</title>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar-custom" id="sidebar">
+        <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="bi bi-three-dots"></i>
+        </button>
+        
+        <div class="sidebar-content">
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item mb-2">
+                    <a href="../aInicio/Inicio.html" class="nav-link">
+                        <i class="bi bi-house-door"></i>
+                        <span class="nav-text">Início</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="../bAvaliacao/Avaliacao.html" class="nav-link">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="nav-text">Avaliações</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="../cPacientes/Paci.html" class="nav-link active">
+                        <i class="bi bi-person-badge"></i>
+                        <span class="nav-text">Pacientes</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="#relatorios" class="nav-link">
+                        <i class="bi bi-file-earmark-text"></i>
+                        <span class="nav-text">Relatórios</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="#perfil" class="nav-link">
+                        <i class="bi bi-person"></i>
+                        <span class="nav-text">Perfil</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="logout-section">
+                <a href="#sair" class="nav-link">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span class="nav-text">Sair</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container-pacientes">
+            <!-- Barra de Pesquisa -->
+            <div class="search-container">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar Pacientes...">
+            </div>
+            
+            <!-- Título Pacientes -->
+            <h2 class="titulo-pacientes">Pacientes</h2>
+            
+            <!-- Lista de Pacientes -->
+            <div class="pacientes-lista" id="pacientesLista">
+                <!-- Os pacientes serão inseridos aqui via JavaScript -->
+            </div>
+
+    <!-- Modal Informações do Paciente -->
+    <div class="modal fade" id="modalInfoPaciente" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-info-custom">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modalInfoTitulo">Informações - João Tavares de Souza</h3>
+                    <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalInfoBody">
+                    <!-- Conteúdo será preenchido via JavaScript -->
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn-excluir-paciente" id="btnExcluirPaciente">
+                        <i class="bi bi-trash"></i>
+                        Excluir Paciente
+                    </button>
+                    <button type="button" class="btn-avaliacoes" id="btnAvaliacoes">
+                        <i class="bi bi-clipboard-data"></i>
+                        Avaliações do paciente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+            
+            <!-- Botão Novo Paciente -->
+            <div class="novo-paciente">
+                <button type="button" class="btn-novo-paciente" id="btnNovoPaciente">
+                    <i class="bi bi-person-plus"></i>
+                    Novo Paciente
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Criar Paciente -->
+    <div class="modal fade" id="modalCriarPaciente" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-custom">
+                <div class="modal-header">
+                    <h3 class="modal-title">Criar Paciente</h3>
+                    <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formPaciente">
+                        <div class="row">
+                            <!-- Coluna Esquerda -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Nome</label>
+                                    <input type="text" class="form-control" id="nome" placeholder="Insira o nome do paciente" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Sexo</label>
+                                    <select class="form-control" id="sexo" required>
+                                        <option value="">Masculino/feminino</option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Feminino">Feminino</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Contato</label>
+                                    <input type="text" class="form-control" id="contato" placeholder="Insira email ou telefone do paciente">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Data de Nascimento</label>
+                                    <input type="date" class="form-control" id="dataNascimento" placeholder="DD-MM-AAAA">
+                                </div>
+                                
+                                <div class="metrics-section">
+                                    <h4>Métricas</h4>
+                                    
+                                    <div class="form-group">
+                                        <label>Cintura</label>
+                                        <input type="number" class="form-control" id="cintura" placeholder="Insira em cm a medida da cintura atual" step="0.1">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Quadril</label>
+                                        <input type="number" class="form-control" id="quadril" placeholder="Insira em cm a medida atual do quadril" step="0.1">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Objetivos nutricionais</label>
+                                        <textarea class="form-control" id="objetivos" placeholder="O que o paciente deseja alcançar?" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Coluna Direita -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Atividades Físicas</label>
+                                    <div class="info-icon-container">
+                                        <input type="text" class="form-control" id="atividadesFisicas" placeholder="O paciente está se exercitando?">
+                                        <i class="bi bi-info-circle info-icon"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Hábitos de mastigação</label>
+                                    <input type="text" class="form-control" id="habitosMastigacao" placeholder="Como o paciente está mastigando?">
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Percentual de gordura</label>
+                                            <input type="number" class="form-control" id="percentualGordura" placeholder="Insira o percentual de gordura" step="0.1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>IMC</label>
+                                            <input type="number" class="form-control" id="imc" placeholder="(automático)" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Peso</label>
+                                            <input type="number" class="form-control" id="peso" placeholder="Insira o peso do paciente" step="0.1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Altura</label>
+                                            <input type="number" class="form-control" id="altura" placeholder="Insira a altura do paciente" step="0.01">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Frequência das refeições</label>
+                                    <select class="form-control" id="frequenciaRefeicoes">
+                                        <option value="">Selecione o paciente para avaliar</option>
+                                        <option value="2-3 refeições">2-3 refeições por dia</option>
+                                        <option value="4-5 refeições">4-5 refeições por dia</option>
+                                        <option value="6+ refeições">6 ou mais refeições por dia</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Histórico de Saúde</label>
+                                    <textarea class="form-control" id="historicoSaude" placeholder="Doenças preexistentes" rows="2"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Uso de substâncias</label>
+                                    <div class="checkbox-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="alcool">
+                                            <label class="form-check-label" for="alcool">Álcool</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="drogasIlicitas">
+                                            <label class="form-check-label" for="drogasIlicitas">Drogas ilícitas</label>
+                                        </div>
+                                    </div>
+                                    <textarea class="form-control mt-2" id="detalhesSubstancias" placeholder="Detalhes" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-adicionar" id="btnAdicionar">
+                        <i class="bi bi-plus-circle"></i>
+                        Adicionar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="Paci.js"></script>
+</body>
+</html>
