@@ -2,6 +2,7 @@ body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background: #e3ece8;
+    font-family: var(--font-Montserrat), sans-serif;
 }
 
 /* === SIDEBAR === */
@@ -126,7 +127,7 @@ body {
 
 /* === CONTAINER AVALIAÇÕES === */
 .container-avaliacoes {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
@@ -136,6 +137,9 @@ body {
 .container-avaliacoes h2 {
     margin-bottom: 10px;
     text-align: left;
+    font-size: 24px;
+    color: #333;
+    font-weight: normal;
 }
 
 /* === BARRA DE PESQUISA MODERNA === */
@@ -189,74 +193,132 @@ body {
     font-weight: normal;
 }
 
-/* === LISTA DE AVALIAÇÕES (SIMPLIFICADA) === */
+/* === LISTA DE AVALIAÇÕES (IGUAL PACIENTES) === */
 .avaliacoes-lista {
-    margin-bottom: 40px;
+    margin: 0;
+    padding: 0;
 }
 
+/* Adaptando para a classe que o JS usa: avaliacao-item */
+.avaliacao-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #c5d4c8;
+    border-radius: 8px;
+    padding: 18px 25px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: slideIn 0.3s ease-out;
+    min-height: 70px;
+}
+
+.avaliacao-item:hover {
+    background: #b8c7bb;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Conteúdo da avaliação */
+.avaliacao-item > div:first-child {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.avaliacao-item > div:first-child > div:first-child {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.avaliacao-item > div:first-child > div:last-child {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.3;
+}
+
+/* Data da avaliação */
+.avaliacao-data {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+/* Mantendo compatibilidade com cards antigos se existirem */
 .avaliacao-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: #c5d4c8;
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 18px 25px;
     margin-bottom: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
+    animation: slideIn 0.3s ease-out;
+    min-height: 70px;
 }
 
 .avaliacao-card:hover {
     background: #b8c7bb;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .avaliacao-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .avaliacao-nome {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     color: #333;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
+    line-height: 1.2;
 }
 
 .avaliacao-info {
-    font-size: 14px;
+    font-size: 13px;
     color: #666;
+    line-height: 1.3;
 }
 
-/* === AÇÕES SIMPLIFICADAS === */
+/* === AÇÕES === */
 .avaliacao-acoes {
     display: flex;
-    gap: 8px;
+    align-items: center;
 }
 
 .btn-info {
     background: none;
     border: none;
     color: #6c8197;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
     padding: 8px;
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
 }
 
 .btn-info:hover {
-    background: rgba(108, 129, 151, 0.1);
+    background: rgba(108, 129, 151, 0.15);
     color: #4a5d6f;
-    transform: scale(1.1);
 }
 
-/* Esconde os outros botões que não são mais necessários */
+/* Esconde botões desnecessários */
 .btn-editar,
 .btn-excluir {
     display: none;
@@ -669,10 +731,6 @@ select.form-control {
     }
 }
 
-.avaliacao-card {
-    animation: slideIn 0.3s ease-out;
-}
-
 /* === ESTADOS DE LOADING === */
 .loading {
     opacity: 0.6;
@@ -709,7 +767,7 @@ select.form-control {
 
 /* === TOOLTIP CUSTOMIZADO === */
 .info-icon:hover::after {
-    content: 'Informações sobre atividades físicas do paciente';
+    content: 'Informações detalhadas da avaliação';
     position: absolute;
     background: #333;
     color: white;
@@ -749,30 +807,34 @@ select.form-control {
         width: 0;
     }
     
-    .search-container {
-        max-width: 100%;
-    }
-    
     .container-avaliacoes {
         padding: 15px;
     }
     
+    .avaliacao-item,
     .avaliacao-card {
         padding: 15px 20px;
+        min-height: 60px;
     }
     
+    .avaliacao-item > div:first-child > div:first-child,
     .avaliacao-nome {
-        font-size: 16px;
+        font-size: 15px;
     }
     
+    .avaliacao-item > div:first-child > div:last-child,
     .avaliacao-info {
+        font-size: 12px;
+    }
+    
+    .avaliacao-data {
         font-size: 13px;
     }
     
     .btn-info {
-        width: 35px;
-        height: 35px;
-        font-size: 18px;
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
     }
     
     .modal-dialog {
@@ -796,5 +858,10 @@ select.form-control {
     .metricas-row {
         flex-direction: column;
         gap: 20px;
+    }
+    
+    .nova-avaliacao {
+        bottom: 20px;
+        right: 20px;
     }
 }
