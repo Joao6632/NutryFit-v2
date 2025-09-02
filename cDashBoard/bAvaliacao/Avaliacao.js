@@ -350,10 +350,10 @@ class SistemaAvaliacoes {
         lista.innerHTML = avaliacoesOrdenadas.map(avaliacao => `
             <div class="avaliacao-item" data-id="${avaliacao.id}">
                 <div>
-                    <div style="font-weight: 500;">${avaliacao.pacienteNome}</div>
-                    <div style="font-size: 13px; color: #666;">Avaliação: #${avaliacao.numeroAvaliacao}</div>
+                    <div style="font-weight: 500;"><strong>${avaliacao.pacienteNome}</strong></div>
+                    <div style="font-size: 13px; color: #666;">Avaliação: <strong>#${avaliacao.numeroAvaliacao}</strong></div>
                 </div>
-                <div class="avaliacao-data">${this.formatarData(avaliacao.dataAvaliacao)}</div>
+                <div class="avaliacao-data"><strong>${this.formatarData(avaliacao.dataAvaliacao)}</strong></div>
             </div>
         `).join('');
 
