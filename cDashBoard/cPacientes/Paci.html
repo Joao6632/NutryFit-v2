@@ -76,32 +76,57 @@
                 <!-- Os pacientes serão inseridos aqui via JavaScript -->
             </div>
 
-    <!-- Modal Informações do Paciente -->
-    <div class="modal fade" id="modalInfoPaciente" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content modal-info-custom">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="modalInfoTitulo">Informações - João Tavares de Souza</h3>
-                    <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-                <div class="modal-body" id="modalInfoBody">
-                    <!-- Conteúdo será preenchido via JavaScript -->
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn-excluir-paciente" id="btnExcluirPaciente">
-                        <i class="bi bi-trash"></i>
-                        Excluir Paciente
-                    </button>
-                    <button type="button" class="btn-avaliacoes" id="btnAvaliacoes">
-                        <i class="bi bi-clipboard-data"></i>
-                        Avaliações do paciente
-                    </button>
+            <!-- Modal Informações do Paciente -->
+            <div class="modal fade" id="modalInfoPaciente" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content modal-info-custom">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="modalInfoTitulo">Informações - João Tavares de Souza</h3>
+                            <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="modalInfoBody">
+                            <!-- Conteúdo será preenchido via JavaScript -->
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn-excluir-paciente" id="btnExcluirPaciente">
+                                <i class="bi bi-trash"></i>
+                                Excluir Paciente
+                            </button>
+                            <button type="button" class="btn-avaliacoes" id="btnAvaliacoes">
+                                <i class="bi bi-clipboard-data"></i>
+                                Avaliações do paciente
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+
+            <!-- Modal Avaliações do Paciente -->
+            <div class="modal fade" id="modalAvaliacoesPaciente" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content modal-avaliacoes-custom">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="modalAvaliacoesTitulo">Avaliações - João Tavares de Souza</h3>
+                            <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="avaliacoes-container" id="avaliacoesContainer">
+                                <!-- As avaliações serão inseridas aqui via JavaScript -->
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-gerar-comparativo" id="btnGerarComparativo">
+                                <i class="bi bi-graph-up"></i>
+                                Gerar Comparativo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
             <!-- Botão Novo Paciente -->
             <div class="novo-paciente">

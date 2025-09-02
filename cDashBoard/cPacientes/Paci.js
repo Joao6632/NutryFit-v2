@@ -166,7 +166,7 @@ class SistemaPacientes {
                 this.excluirPacienteModal();
             }
             if (e.target.id === 'btnAvaliacoes') {
-                this.abrirAvaliacoes();
+                this.abrirAvaliacoesPaciente();
             }
         });
     }
@@ -372,8 +372,18 @@ Detalhes de ${paciente.nome}:
         }
     }
 
-    abrirAvaliacoes() {
-        this.mostrarMensagem('Funcionalidade de avaliações em desenvolvimento', 'info');
+    abrirAvaliacoesPaciente() {
+        if (!this.pacienteAtual) {
+            this.mostrarMensagem('Nenhum paciente selecionado', 'error');
+            return;
+        }
+        
+        // Inicializar sistema de avaliações se não existir
+        if (!window.sistemaAvaliacoes) {
+            window.sistemaAvaliacoes = new SistemaAvaliacoes(this);
+        }
+        
+        window.sistemaAvaliacoes.abrirModalAvaliacoes(this.pacienteAtual);
     }
 
     adicionarPaciente() {
@@ -615,7 +625,239 @@ Detalhes de ${paciente.nome}:
     }
 }
 
+// === SISTEMA DE AVALIAÇÕES ===
+class SistemaAvaliacoes {
+    constructor(sistemaPacientes) {
+        this.sistemaPacientes = sistemaPacientes;
+        this.avaliacoesSelecionadas = new Set();
+        this.pacienteAtual = null;
+        this.init();
+    }
+
+    init() {
+        this.bindEvents();
+    }
+
+    bindEvents() {
+        // Event delegation para checkboxes das avaliações
+        document.addEventListener('change', (e) => {
+            if (e.target.closest('.avaliacao-checkbox input[type="checkbox"]')) {
+                this.handleAvaliacaoSelection(e.target);
+            }
+        });
+
+        // Botão gerar comparativo
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'btnGerarComparativo' || e.target.closest('#btnGerarComparativo')) {
+                this.gerarComparativo();
+            }
+        });
+    }
+
+    abrirModalAvaliacoes(paciente) {
+        this.pacienteAtual = paciente;
+        this.avaliacoesSelecionadas.clear();
+        this.carregarAvaliacoesPaciente(paciente.id);
+        this.atualizarTitulo(paciente.nome);
+        this.abrirModal();
+    }
+
+    atualizarTitulo(nomePaciente) {
+        const titulo = document.getElementById('modalAvaliacoesTitulo');
+        if (titulo) {
+            titulo.textContent = `Avaliações - ${nomePaciente}`;
+        }
+    }
+
+    carregarAvaliacoesPaciente(pacienteId) {
+        const container = document.getElementById('avaliacoesContainer');
+        if (!container) return;
+
+        // Mostrar loading
+        container.innerHTML = `
+            <div class="avaliacoes-loading">
+                <i class="bi bi-hourglass-split"></i>
+                <p>Carregando avaliações...</p>
+            </div>
+        `;
+
+        // Simular pequeno delay para mostrar loading
+        setTimeout(() => {
+            const avaliacoes = this.buscarAvaliacoesDoPaciente(pacienteId);
+            this.renderAvaliacoes(avaliacoes);
+            this.atualizarContador();
+        }, 300);
+    }
+
+    buscarAvaliacoesDoPaciente(pacienteId) {
+        try {
+            const avaliacoes = JSON.parse(localStorage.getItem('nutrifit-avaliacoes') || '[]');
+            return avaliacoes
+                .filter(av => av.pacienteId === pacienteId)
+                .sort((a, b) => new Date(b.dataAvaliacao) - new Date(a.dataAvaliacao)); // Mais recentes primeiro
+        } catch (error) {
+            console.error('Erro ao carregar avaliações:', error);
+            return [];
+        }
+    }
+
+    renderAvaliacoes(avaliacoes) {
+        const container = document.getElementById('avaliacoesContainer');
+        if (!container) return;
+
+        if (avaliacoes.length === 0) {
+            container.innerHTML = `
+                <div class="avaliacoes-empty">
+                    <i class="bi bi-clipboard-x"></i>
+                    <p>Nenhuma avaliação encontrada para este paciente</p>
+                </div>
+            `;
+            this.atualizarBotaoComparativo(false);
+            return;
+        }
+
+        // Adicionar info sobre seleções
+        const infoHTML = `
+            <div class="selecoes-info">
+                <div class="contador" id="contadorSelecoes">0 avaliações selecionadas</div>
+                <div class="minimo">Selecione pelo menos 2 avaliações para gerar comparativo</div>
+            </div>
+        `;
+
+        const avaliacoesHTML = avaliacoes.map(avaliacao => `
+            <div class="avaliacao-item" data-id="${avaliacao.id}">
+                <div class="avaliacao-content">
+                    <div class="avaliacao-numero">Avaliação: #${avaliacao.numeroAvaliacao}</div>
+                    <div class="avaliacao-data">${this.formatarData(avaliacao.dataAvaliacao)}</div>
+                </div>
+                <div class="avaliacao-checkbox">
+                    <input type="checkbox" id="avaliacao_${avaliacao.id}" value="${avaliacao.id}">
+                    <div class="checkmark"></div>
+                </div>
+            </div>
+        `).join('');
+
+        container.innerHTML = infoHTML + avaliacoesHTML;
+        this.atualizarBotaoComparativo(false);
+    }
+
+    handleAvaliacaoSelection(checkbox) {
+        const avaliacaoItem = checkbox.closest('.avaliacao-item');
+        const avaliacaoId = parseInt(checkbox.value);
+
+        if (checkbox.checked) {
+            this.avaliacoesSelecionadas.add(avaliacaoId);
+            avaliacaoItem.classList.add('selected');
+        } else {
+            this.avaliacoesSelecionadas.delete(avaliacaoId);
+            avaliacaoItem.classList.remove('selected');
+        }
+
+        this.atualizarContador();
+        this.atualizarBotaoComparativo(this.avaliacoesSelecionadas.size >= 2);
+    }
+
+    atualizarContador() {
+        const contador = document.getElementById('contadorSelecoes');
+        if (contador) {
+            const quantidade = this.avaliacoesSelecionadas.size;
+            contador.textContent = `${quantidade} ${quantidade === 1 ? 'avaliação selecionada' : 'avaliações selecionadas'}`;
+        }
+    }
+
+    atualizarBotaoComparativo(habilitar) {
+        const botao = document.getElementById('btnGerarComparativo');
+        if (botao) {
+            botao.disabled = !habilitar;
+            if (habilitar) {
+                botao.innerHTML = `
+                    <i class="bi bi-graph-up"></i>
+                    Gerar Comparativo
+                `;
+            } else {
+                botao.innerHTML = `
+                    <i class="bi bi-graph-up"></i>
+                    Selecione 2+ avaliações
+                `;
+            }
+        }
+    }
+
+    gerarComparativo() {
+        if (this.avaliacoesSelecionadas.size < 2) {
+            this.mostrarMensagem('Selecione pelo menos 2 avaliações para comparar', 'error');
+            return;
+        }
+
+        // Salvar avaliações selecionadas para a página de comparativo
+        const avaliacoesSelecionadasArray = Array.from(this.avaliacoesSelecionadas);
+        localStorage.setItem('nutrifit-comparativo-avaliacoes', JSON.stringify({
+            pacienteId: this.pacienteAtual.id,
+            pacienteNome: this.pacienteAtual.nome,
+            avaliacoes: avaliacoesSelecionadasArray,
+            dataComparativo: new Date().toISOString()
+        }));
+
+        this.mostrarMensagem(`Comparativo gerado com ${this.avaliacoesSelecionadas.size} avaliações!`, 'success');
+        
+        // Fechar modal
+        this.fecharModal();
+        
+        // Aqui você pode redirecionar para a página de comparativo ou abrir outro modal
+        // window.location.href = '../comparativo/comparativo.html';
+        
+        console.log('Dados salvos para comparativo:', {
+            paciente: this.pacienteAtual.nome,
+            avaliacoes: avaliacoesSelecionadasArray
+        });
+    }
+
+    formatarData(dataString) {
+        try {
+            const data = new Date(dataString);
+            return data.toLocaleDateString('pt-BR');
+        } catch (error) {
+            return 'Data inválida';
+        }
+    }
+
+    abrirModal() {
+        const modalElement = document.getElementById('modalAvaliacoesPaciente');
+        if (modalElement && window.bootstrap) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        } else {
+            console.error('Modal de avaliações não encontrado ou Bootstrap não disponível');
+        }
+    }
+
+    fecharModal() {
+        const modalElement = document.getElementById('modalAvaliacoesPaciente');
+        if (modalElement && window.bootstrap) {
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            modal?.hide();
+        }
+    }
+
+    mostrarMensagem(texto, tipo) {
+        // Reutilizar o método do sistema de pacientes
+        if (this.sistemaPacientes && this.sistemaPacientes.mostrarMensagem) {
+            this.sistemaPacientes.mostrarMensagem(texto, tipo);
+        } else {
+            // Fallback
+            alert(texto);
+        }
+    }
+}
+
 // Inicializar sistema quando a página carregar
 document.addEventListener('DOMContentLoaded', () => {
     window.sistemaPacientes = new SistemaPacientes();
+    
+    // Inicializar sistema de avaliações após um pequeno delay
+    setTimeout(() => {
+        if (window.sistemaPacientes) {
+            window.sistemaAvaliacoes = new SistemaAvaliacoes(window.sistemaPacientes);
+        }
+    }, 100);
 });

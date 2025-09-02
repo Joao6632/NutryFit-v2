@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background: #e3ece8;
+    background: white;
     font-family: var(--font-Montserrat), sans-serif;
 }
 
@@ -148,4 +148,57 @@ body {
         .chart-container {
             width: 100%;
             height: 300px;
+        }
+        .h1{
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 25px;
+        }
+         .recent-patients-section {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 25px;
+        }
+
+        .recent-patients-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .recent-patients-header h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+
+        /* Estilo do Card Individual do Paciente */
+        .patient-card {
+            
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            text-align: center;
+            background-color: var(--color-background);
+        }
+
+        .patient-card .card-body {
+            padding: 1rem 0.5rem;
+        }
+
+        .patient-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .patient-info {
+            font-size: 0.8rem;
+            color: #6c757d;
         }
