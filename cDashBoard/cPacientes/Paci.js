@@ -803,8 +803,8 @@ class SistemaAvaliacoes {
         // Fechar modal
         this.fecharModal();
         
-        // Aqui você pode redirecionar para a página de comparativo ou abrir outro modal
-        // window.location.href = '../comparativo/comparativo.html';
+      
+        window.location.href = '../dRelatorio/Relatorio.html';
         
         console.log('Dados salvos para comparativo:', {
             paciente: this.pacienteAtual.nome,

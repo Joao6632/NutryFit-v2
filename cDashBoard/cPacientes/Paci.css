@@ -127,19 +127,14 @@ body {
 
 /* === CONTAINER PACIENTES === */
 .container-pacientes {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
     color: #333;
 }
 
-.container-pacientes h2 {
-    margin-bottom: 10px;
-    text-align: left;
-}
-
-/* === BARRA DE PESQUISA MODERNA === */
+/* === BARRA DE PESQUISA === */
 .search-container {
     position: relative;
     width: 100%;
@@ -183,14 +178,14 @@ body {
 
 /* === TÍTULO PACIENTES === */
 .titulo-pacientes {
-    text-align: center;
+    text-align: start;
     font-size: 24px;
     color: #333;
     margin: 30px 0;
     font-weight: normal;
 }
 
-/* === LISTA DE PACIENTES (SIMPLIFICADA) === */
+/* === LISTA DE PACIENTES === */
 .pacientes-lista {
     margin-bottom: 40px;
 }
@@ -229,7 +224,7 @@ body {
     color: #666;
 }
 
-/* === AÇÕES SIMPLIFICADAS === */
+/* === AÇÕES === */
 .paciente-acoes {
     display: flex;
     gap: 8px;
@@ -255,20 +250,6 @@ body {
     background: rgba(108, 129, 151, 0.1);
     color: #4a5d6f;
     transform: scale(1.1);
-}
-
-/* Esconde os outros botões que não são mais necessários */
-.btn-editar,
-.btn-excluir {
-    display: none;
-}
-
-/* === PACIENTE VAZIO === */
-.paciente-vazio {
-    text-align: center;
-    padding: 60px 20px;
-    color: #999;
-    font-style: italic;
 }
 
 /* === BOTÃO NOVO PACIENTE === */
@@ -312,6 +293,14 @@ body {
     min-height: 600px;
 }
 
+.modal-avaliacoes-custom {
+    background: #e8f0ec;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    min-height: 500px;
+}
+
 .modal-header {
     border-bottom: 2px solid #ddd;
     padding: 20px 30px;
@@ -319,11 +308,25 @@ body {
     border-radius: 15px 15px 0 0;
 }
 
+.modal-avaliacoes-custom .modal-header {
+    background: linear-gradient(135deg, #6c8197, #5a6f86);
+    color: white;
+    border-radius: 15px 15px 0 0;
+    border: none;
+    padding: 20px 30px;
+}
+
 .modal-title {
     font-size: 24px;
     color: #333;
     margin: 0;
     font-weight: 600;
+}
+
+.modal-avaliacoes-custom .modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
 }
 
 .btn-close-custom {
@@ -347,6 +350,16 @@ body {
     color: #333;
 }
 
+.modal-avaliacoes-custom .btn-close-custom {
+    color: white;
+    opacity: 0.8;
+}
+
+.modal-avaliacoes-custom .btn-close-custom:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+}
+
 .modal-body {
     padding: 30px;
     background: #e8f0ec;
@@ -356,6 +369,12 @@ body {
     padding: 25px 30px;
     max-height: 500px;
     overflow-y: auto;
+}
+
+.modal-avaliacoes-custom .modal-body {
+    padding: 25px 30px;
+    background: #e8f0ec;
+    min-height: 300px;
 }
 
 .modal-footer {
@@ -370,6 +389,77 @@ body {
 .modal-info-custom .modal-footer {
     padding: 20px 30px;
     border-top: 2px solid #ddd;
+}
+
+.modal-avaliacoes-custom .modal-footer {
+    background: #e8f0ec;
+    border-top: 2px solid #ddd;
+    padding: 20px 30px;
+    border-radius: 0 0 15px 15px;
+    display: flex;
+    justify-content: center;
+}
+
+/* === BOTÕES DO MODAL DE INFO === */
+.btn-excluir-paciente {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-excluir-paciente:hover {
+    background: #c82333;
+}
+
+.btn-avaliacoes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #6c8197;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-avaliacoes:hover {
+    background: #5a6f86;
+}
+
+/* === BOTÃO GERAR COMPARATIVO === */
+.btn-gerar-comparativo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+.btn-gerar-comparativo:hover {
+    background: linear-gradient(135deg, #357abd, #2a5f96);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
 }
 
 /* === INFO CONTENT === */
@@ -462,41 +552,11 @@ body {
     font-style: italic;
 }
 
-/* === BOTÕES DO MODAL DE INFO === */
-.btn-excluir-paciente {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.btn-excluir-paciente:hover {
-    background: #c82333;
-}
-
-.btn-avaliacoes {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #6c8197;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.btn-avaliacoes:hover {
-    background: #5a6f86;
+/* === CONTAINER DE AVALIAÇÕES === */
+.avaliacoes-container {
+    max-height: 350px;
+    overflow-y: auto;
+    padding: 10px 0;
 }
 
 /* === FORMULÁRIO === */
@@ -632,421 +692,6 @@ select.form-control {
     cursor: pointer;
 }
 
-/* === ALERTAS === */
-.alert {
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.alert-success {
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
-    color: #155724;
-}
-
-.alert-danger {
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    color: #721c24;
-}
-
-.alert-info {
-    background-color: #cce5ff;
-    border: 1px solid #99d6ff;
-    color: #004085;
-}
-
-/* === ANIMAÇÕES === */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.paciente-card {
-    animation: slideIn 0.3s ease-out;
-}
-
-/* === ESTADOS DE LOADING === */
-.loading {
-    opacity: 0.6;
-    pointer-events: none;
-}
-
-.btn-adicionar.loading::after {
-    content: '';
-    width: 16px;
-    height: 16px;
-    border: 2px solid transparent;
-    border-top: 2px solid currentColor;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-left: 8px;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* === VALIDAÇÃO === */
-.form-control.is-invalid {
-    border: 2px solid #dc3545;
-    background-color: #fff5f5;
-}
-
-.form-control.is-valid {
-    border: 2px solid #28a745;
-    background-color: #f8fff8;
-}
-
-/* === TOOLTIP CUSTOMIZADO === */
-.info-icon:hover::after {
-    content: 'Informações sobre atividades físicas do paciente';
-    position: absolute;
-    background: #333;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    white-space: nowrap;
-    bottom: 130%;
-    right: 0;
-    z-index: 1000;
-    transform: translateX(50%);
-}
-
-.info-icon:hover::before {
-    content: '';
-    position: absolute;
-    border: 6px solid transparent;
-    border-top-color: #333;
-    bottom: 124%;
-    right: 8px;
-    z-index: 1001;
-}
-
-/* === MODAL DE AVALIAÇÕES === */
-.modal-avaliacoes-custom {
-    background: #e8f0ec;
-    border-radius: 15px;
-    border: none;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    min-height: 500px;
-}
-
-.modal-avaliacoes-custom .modal-header {
-    background: linear-gradient(135deg, #6c8197, #5a6f86);
-    color: white;
-    border-radius: 15px 15px 0 0;
-    border: none;
-    padding: 20px 30px;
-}
-
-.modal-avaliacoes-custom .modal-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0;
-}
-
-.modal-avaliacoes-custom .modal-body {
-    padding: 25px 30px;
-    background: #e8f0ec;
-    min-height: 300px;
-}
-
-.modal-avaliacoes-custom .modal-footer {
-    background: #e8f0ec;
-    border-top: 2px solid #ddd;
-    padding: 20px 30px;
-    border-radius: 0 0 15px 15px;
-    display: flex;
-    justify-content: center;
-}
-
-.modal-avaliacoes-custom .btn-close-custom {
-    color: white;
-    opacity: 0.8;
-}
-
-.modal-avaliacoes-custom .btn-close-custom:hover {
-    opacity: 1;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* === CONTAINER DE AVALIAÇÕES === */
-.avaliacoes-container {
-    max-height: 350px;
-    overflow-y: auto;
-    padding: 10px 0;
-}
-
-.avaliacoes-empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: #999;
-    font-style: italic;
-    font-size: 16px;
-}
-
-.avaliacoes-empty i {
-    font-size: 48px;
-    margin-bottom: 15px;
-    color: #ccc;
-    display: block;
-}
-
-/* === ITEM DE AVALIAÇÃO === */
-.avaliacao-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #ffffff;
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 18px 25px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    user-select: none;
-}
-
-.avaliacao-item:hover {
-    background: #f8f9fa;
-    border-color: #6c8197;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(108, 129, 151, 0.15);
-}
-
-.avaliacao-item.selected {
-    background: #e7f3ff;
-    border-color: #4a90e2;
-    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.2);
-}
-
-.avaliacao-item.selected:hover {
-    background: #dbe9ff;
-}
-
-/* === CONTEÚDO DA AVALIAÇÃO === */
-.avaliacao-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.avaliacao-numero {
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-    min-width: 100px;
-}
-
-.avaliacao-data {
-    font-size: 14px;
-    color: #666;
-    background: #f5f5f5;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-weight: 500;
-}
-
-.avaliacao-item.selected .avaliacao-data {
-    background: #cce5ff;
-    color: #004085;
-}
-
-/* === CHECKBOX CUSTOMIZADO === */
-.avaliacao-checkbox {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-}
-
-.avaliacao-checkbox input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-}
-
-.avaliacao-checkbox .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 24px;
-    height: 24px;
-    background-color: #fff;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.avaliacao-checkbox input:checked ~ .checkmark {
-    background-color: #4a90e2;
-    border-color: #4a90e2;
-}
-
-.avaliacao-checkbox .checkmark:after {
-    content: '';
-    width: 8px;
-    height: 12px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.avaliacao-checkbox input:checked ~ .checkmark:after {
-    opacity: 1;
-}
-
-/* === BOTÃO GERAR COMPARATIVO === */
-.btn-gerar-comparativo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: linear-gradient(135deg, #4a90e2, #357abd);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 200px;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
-}
-
-.btn-gerar-comparativo:hover {
-    background: linear-gradient(135deg, #357abd, #2a5f96);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
-}
-
-.btn-gerar-comparativo:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-.btn-gerar-comparativo:disabled:hover {
-    background: #ccc;
-    transform: none;
-    box-shadow: none;
-}
-
-/* === CONTADOR DE SELECIONADOS === */
-.selecoes-info {
-    text-align: center;
-    margin-bottom: 20px;
-    padding: 12px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-}
-
-.selecoes-info .contador {
-    font-size: 14px;
-    color: #666;
-    font-weight: 500;
-}
-
-.selecoes-info .minimo {
-    font-size: 12px;
-    color: #999;
-    margin-top: 4px;
-}
-
-/* === ANIMAÇÕES === */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.avaliacao-item {
-    animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-.avaliacao-item.selected {
-    animation: pulse 0.4s ease-out;
-}
-
-/* === LOADING STATE === */
-.avaliacoes-loading {
-    text-align: center;
-    padding: 60px 20px;
-    color: #666;
-}
-
-.avaliacoes-loading i {
-    font-size: 48px;
-    color: #6c8197;
-    margin-bottom: 15px;
-    animation: spin 2s linear infinite;
-}
-
-.avaliacoes-loading p {
-    font-size: 16px;
-    margin: 0;
-}
-
-/* === SCROLLBAR CUSTOMIZADA === */
-.avaliacoes-container::-webkit-scrollbar {
-    width: 8px;
-}
-
-.avaliacoes-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-}
-
-.avaliacoes-container::-webkit-scrollbar-thumb {
-    background: #6c8197;
-    border-radius: 10px;
-}
-
-.avaliacoes-container::-webkit-scrollbar-thumb:hover {
-    background: #5a6f86;
-}
-
 /* === RESPONSIVIDADE === */
 @media (max-width: 768px) {
     .main-content {
@@ -1102,44 +747,6 @@ select.form-control {
         padding: 15px 20px;
     }
     
-    .info-row {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    .metricas-row {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    /* Responsividade do modal de avaliações */
-    .modal-avaliacoes-custom .modal-header,
-    .modal-avaliacoes-custom .modal-footer {
-        padding: 15px 20px;
-    }
-    
-    .modal-avaliacoes-custom .modal-body {
-        padding: 20px;
-    }
-    
-    .avaliacao-item {
-        padding: 15px 20px;
-    }
-    
-    .avaliacao-content {
-        gap: 10px;
-    }
-    
-    .avaliacao-numero {
-        font-size: 14px;
-        min-width: 80px;
-    }
-    
-    .avaliacao-data {
-        font-size: 12px;
-        padding: 3px 10px;
-    }
-    
     .btn-gerar-comparativo {
         min-width: 100%;
         padding: 15px;
@@ -1151,5 +758,14 @@ select.form-control {
     
     .avaliacoes-container {
         max-height: 250px;
+    }
+    
+    .modal-avaliacoes-custom .modal-header,
+    .modal-avaliacoes-custom .modal-footer {
+        padding: 15px 20px;
+    }
+    
+    .modal-avaliacoes-custom .modal-body {
+        padding: 20px;
     }
 }

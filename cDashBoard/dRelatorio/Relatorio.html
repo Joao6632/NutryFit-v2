@@ -11,11 +11,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
     />
-    <link rel="stylesheet" href="Inicio.css" />
+    <link rel="stylesheet" href="Relatorio.css" />
     <link rel="stylesheet" href="../../Global/fonts.css" />
-    <script src="Inicio.js" defer></script>
-    <title>NutryFit - Dashboard</title>
-    <link rel="icon" href="../../assets/nutrifiticon.png" type="image/png">
+    <script src="Relatorio.js" defer></script>
+    <title>NutryFit - Relatorio</title>
   </head>
   <body>
     <!-- Sidebar -->
@@ -27,7 +26,7 @@
       <div class="sidebar-content">
         <ul class="nav nav-pills flex-column mb-auto">
           <li class="nav-item mb-2">
-            <a href="../aInicio/Inicio.html" class="nav-link active">
+            <a href="../aInicio/Inicio.html" class="nav-link">
               <i class="bi bi-house-door"></i>
               <span class="nav-text">Início</span>
             </a>
@@ -45,7 +44,7 @@
             </a>
           </li>
           <li class="nav-item mb-2">
-            <a href="../dRelatorio/Relatorio.html" class="nav-link">
+            <a href="../dRelatorio/Relatorio.html" class="nav-link active">
               <i class="bi bi-file-earmark-text"></i>
               <span class="nav-text">Relatórios</span>
             </a>
@@ -66,61 +65,8 @@
         </div>
       </div>
     </div>
-
-    <!-- Conteúdo Principal -->
-    <div class="main-content" id="mainContent">
-      <div class="container-avaliacoes">
-        <div class="dashboard-container">
-          <div class="chart-header">
-            <h2>Avaliações da semana</h2>
-            <p>Quantidade de avaliações nos últimos 7 dias</p>
-          </div>
-          <div class="chart-container">
-            <canvas id="avaliacoesSemanaChart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="main-container">
-        <div class="container h1">
-            <span>Total de avaliações: <span class="Total avaliações">4</span></span>
-        </div>
-    
-         <section class="recent-patients-section">
-        <div class="recent-patients-header">
-            <h2>Últimos Pacientes Avaliados</h2>
-            
-        </div>
-
-            <div class="card patient-card">
-                <div class="card-body">
-                   
-                    <h5 class="patient-name">Ana Silva</h5>
-                    <p class="patient-info">29/08/2025</p>
-                </div>
-
-            <div class="card patient-card">
-                <div class="card-body">
-                    
-                    <h5 class="patient-name">Bruno Costa</h5>
-                    <p class="patient-info">28/08/2025</p>
-                </div>
-            </div>
-
-            <div class="card patient-card">
-                <div class="card-body">
-                    <h5 class="patient-name">Carla Dias</h5>
-                    <p class="patient-info">27/08/2025</p>
-                </div>
-            </div>
-            
-    </section>
-    </div>
-    <div>
-
-    <!-- Bootstrap JS -->
+     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   </body>
 </html>
