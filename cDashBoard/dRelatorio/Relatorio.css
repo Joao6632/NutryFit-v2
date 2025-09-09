@@ -200,13 +200,44 @@ body {
     margin-bottom: 40px;
 }
 
+
 .relatorio-card {
-    background: #c5d4c8;
+    background-color: #c5d4c8;
     border-radius: 12px;
     padding: 18px 25px;
     margin-bottom: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-decoration: none;
+    
+    /* Correções para elemento <a> */
+    display: block; /* ou inline-block se preferir */
+    color: inherit; /* herda a cor do elemento pai */
+    
+    /* Removi white-space: nowrap - pode causar problemas de layout */
+    /* Se precisar manter o texto em uma linha, use: */
+    /* overflow: hidden;
+       text-overflow: ellipsis; */
+}
+
+/* Estado hover para melhor UX */
+.relatorio-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-decoration: none; /* garante que não apareça sublinhado no hover */
+    color: inherit;
+}
+
+/* Estado focus para acessibilidade */
+.relatorio-card:focus {
+    outline: 2px solid #4a90a4;
+    outline-offset: 2px;
+    text-decoration: none;
+}
+
+/* Remove qualquer estilo padrão de link */
+.relatorio-card:visited {
+    color: inherit;
 }
 
 .relatorio-card:hover {
