@@ -1,0 +1,387 @@
+body {
+    margin: 0;
+    font-family: var(--font-Montserrat), sans-serif;
+    background: var(--color-body-bg);
+    color: var(--color-text);
+}
+
+/* === SIDEBAR === */
+.sidebar-custom {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    background: var(--color-background);
+    box-shadow: 2px 0 8px var(--color-shadow);
+    border-radius: 0 12px 12px 0;
+    transition: width 0.3s ease;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.sidebar-custom.collapsed {
+    width: 70px;
+}
+
+/* === BOTÃO DE TOGGLE === */
+.sidebar-toggle {
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--color-secondary);
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.sidebar-toggle:hover {
+    color: var(--color-primary);
+}
+
+/* === CONTEÚDO SIDEBAR === */
+.sidebar-content {
+    padding: 60px 1rem 1rem 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* === LINKS === */
+.sidebar-custom .nav-link {
+    font-size: 1.1rem;
+    padding: 10px 18px;
+    border-radius: 8px;
+    margin: 4px 8px;
+    display: flex;
+    align-items: center;
+    color: var(--color-primary);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.sidebar-custom .nav-link.active {
+    background: var(--color-secondary) !important;
+    color: var(--color-white) !important;
+}
+
+.sidebar-custom .nav-link:hover {
+    background: var(--color-sidebar-hover);
+    color: var(--color-sidebar-hover-text);
+}
+
+.sidebar-custom .nav-link .bi {
+    font-size: 1.3rem;
+    margin-right: 12px;
+    transition: margin-right 0.3s ease;
+}
+
+.sidebar-custom.collapsed .nav-link {
+    justify-content: center;
+    padding: 10px;
+}
+
+.sidebar-custom.collapsed .nav-link .bi {
+    margin-right: 0;
+}
+
+.sidebar-custom .nav-link .nav-text {
+    opacity: 1;
+    transition: opacity 0.2s ease, width 0.3s ease;
+}
+
+.sidebar-custom.collapsed .nav-link .nav-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+.nav-pills {
+    flex: 1;
+}
+
+.logout-section {
+    margin-top: auto;
+    margin-bottom: 2.2rem;
+}
+
+/* === MAIN CONTENT === */
+.main-content {
+    margin-left: 250px;
+    padding: 20px 40px;
+    transition: margin-left 0.3s ease;
+    min-height: 100vh;
+}
+
+.main-content.sidebar-collapsed {
+    margin-left: 70px;
+}
+
+/* === HEADER === */
+.header-section {
+    background: var(--color-white);
+    border-radius: 12px;
+    padding: 20px 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 10px var(--color-shadow);
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--color-secondary);
+    cursor: pointer;
+    padding: 0;
+    margin-right: 15px;
+    transition: color 0.2s;
+}
+
+.back-btn:hover {
+    color: var(--color-primary);
+}
+
+.header-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+    display: inline;
+}
+
+.patient-info {
+    color: var(--color-text-light);
+    font-size: 1rem;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.patient-info .bi-arrow-right {
+    margin: 0 10px;
+    font-size: 1.2rem;
+}
+
+.pdf-btn {
+    background: var(--color-secondary);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pdf-btn:hover {
+    background: var(--color-primary);
+    transform: translateY(-1px);
+}
+
+/* === RESUMO CARDS === */
+.resumo-section {
+    background: var(--color-white);
+    border-radius: 12px;
+    padding: 25px 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 10px var(--color-shadow);
+}
+
+.resumo-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 20px;
+}
+
+.metric-card {
+    background: var(--color-card);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+    background: var(--color-card-hover);
+    transform: translateY(-2px);
+}
+
+.metric-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 8px;
+}
+
+.metric-value {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--color-text);
+    margin-bottom: 8px;
+}
+
+.metric-change {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.metric-change.positive {
+    color: var(--color-success);
+}
+
+.metric-change.negative {
+    color: var(--color-danger);
+}
+
+.metric-change.neutral {
+    color: var(--color-warning);
+}
+
+.metric-change .bi {
+    margin-right: 5px;
+    font-size: 1rem;
+}
+
+/* === DETALHES SECTION === */
+.detalhes-section {
+    background: var(--color-white);
+    border-radius: 12px;
+    padding: 25px 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 10px var(--color-shadow);
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--color-text);
+    flex: 1;
+}
+
+.detail-sublabel {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin-top: 2px;
+}
+
+.detail-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-left: 15px;
+}
+
+.indicator-up {
+    background: var(--color-success);
+}
+
+.indicator-down {
+    background: var(--color-danger);
+}
+
+.indicator-stable {
+    background: var(--color-secondary);
+}
+
+/* === OBSERVAÇÕES === */
+.observacoes-section {
+    background: var(--color-white);
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 2px 10px var(--color-shadow);
+}
+
+.observacoes-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.observacao-card {
+    background: var(--color-card);
+    border-radius: 12px;
+    padding: 20px;
+    flex: 1;
+    transition: all 0.3s ease;
+}
+
+.observacao-card:hover {
+    background: var(--color-card-hover);
+}
+
+.observacao-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 15px;
+}
+
+.observacao-text {
+    color: var(--color-text-light);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.arrow-separator {
+    font-size: 2rem;
+    color: var(--color-secondary);
+    flex-shrink: 0;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 15px 20px;
+    }
+    
+    .sidebar-custom {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar-custom.show {
+        transform: translateX(0);
+    }
+    
+    .observacoes-container {
+        flex-direction: column;
+    }
+    
+    .arrow-separator {
+        transform: rotate(90deg);
+        margin: 10px 0;
+    }
+    
+    .patient-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .patient-info .bi-arrow-right {
+        transform: rotate(90deg);
+        margin: 5px 0;
+    }
+}

@@ -2,8 +2,22 @@
 
 :root{
 --font-Montserrat : 'Montserrat', sans-serif;
-
 --color-primary: #4a5d6f;
 --color-secondary: #6c8197;
 --color-background: #e3ece8;
+--color-card: #c5d4c8;
+--color-card-hover: #b8c7bb;
+--color-white: #ffffff;
+--color-text: #333333;
+--color-text-light: #6c8197;
+--color-text-muted: #888888;
+--color-border: #e9ecef;
+--color-body-bg: #f8f9fa;
+--color-sidebar-hover: #bfcad2;
+--color-sidebar-hover-text: #222222;
+--color-success: #28a745;
+--color-danger: #dc3545;
+--color-warning: #ffc107;
+--color-shadow: rgba(0,0,0,0.05);
+--color-shadow-hover: rgba(0,0,0,0.1);
 }

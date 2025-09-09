@@ -65,49 +65,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        const container = document.getElementById('container');
-        const slidingPanel = document.getElementById('slidingPanel');
-        const switchButton = document.getElementById('switchButton');
-        const panelTitle = document.getElementById('panelTitle');
-        const panelContent = document.getElementById('panelContent');
-        
-        let isLoginMode = false;
-
-        switchButton.addEventListener('click', () => {
-            // Adiciona classe de animação
-            container.classList.add('animating');
-            
-            if (!isLoginMode) {
-                // Vai para modo login - painel desliza para direita
-                slidingPanel.classList.add('move-right');
-                
-                // Após um pequeno delay, muda o conteúdo do painel
-                setTimeout(() => {
-                    panelTitle.innerHTML = 'Não tem uma conta? <br>Cadastre-se agora!';
-                    switchButton.textContent = 'Crie uma conta!';
-                }, 500);
-                
-                isLoginMode = true;
-            } else {
-                // Volta para modo cadastro - painel desliza para esquerda
-                slidingPanel.classList.remove('move-right');
-                
-                // Após um pequeno delay, muda o conteúdo do painel
-                setTimeout(() => {
-                    panelTitle.innerHTML = 'Já possui uma<br>conta?';
-                    switchButton.textContent = 'Entre em uma conta existente!';
-                }, 500);
-                
-                isLoginMode = false;
-            }
-            
-            // Remove classe de animação após a transição
-            setTimeout(() => {
-                container.classList.remove('animating');
-            }, 1000);
-        });
-    </script>
 </body>
 </html>

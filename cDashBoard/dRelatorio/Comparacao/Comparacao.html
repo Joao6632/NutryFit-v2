@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="Comparacao.css" />
+    <link rel="stylesheet" href="../../../Global/fonts.css"/>
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    />
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <title>NutryFit - Relatório Comparativo</title>
+    <script src="Comparacao.js" defer></script>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar-custom" id="sidebar">
+      <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="bi bi-three-dots"></i>
+      </button>
+
+      <div class="sidebar-content">
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li class="nav-item mb-2">
+            <a href="../aInicio/Inicio.html" class="nav-link">
+              <i class="bi bi-house-door"></i>
+              <span class="nav-text">Início</span>
+            </a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="../bAvaliacao/Avaliacao.html" class="nav-link">
+              <i class="bi bi-journal-text"></i>
+              <span class="nav-text">Avaliações</span>
+            </a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="../cPacientes/Paci.html" class="nav-link">
+              <i class="bi bi-person-badge"></i>
+              <span class="nav-text">Pacientes</span>
+            </a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="../dRelatorio/Relatorio.html" class="nav-link active">
+              <i class="bi bi-file-earmark-text"></i>
+              <span class="nav-text">Relatórios</span>
+            </a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="../ePerfil/Perfil.html" class="nav-link">
+              <i class="bi bi-person"></i>
+              <span class="nav-text">Perfil</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="logout-section">
+          <a href="#sair" class="nav-link">
+            <i class="bi bi-box-arrow-left"></i>
+            <span class="nav-text">Sair</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+      
+      <!-- Header -->
+      <div class="header-section">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <button class="back-btn" onclick="history.back()">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+            <h1 class="header-title">Relatório comparativo de progresso</h1>
+            <div class="patient-info">
+              <span>Paciente: João Tavares de Souza - Avaliação #1 - 22/07/2025</span>
+              <i class="bi bi-arrow-right"></i>
+              <span>Avaliação #3 - 12/08/2025</span>
+            </div>
+          </div>
+          <button class="pdf-btn">
+            <i class="bi bi-file-earmark-pdf me-2"></i>
+            Imprimir PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Resumo das Variações -->
+      <div class="resumo-section">
+        <h2 class="resumo-title">Resumo das Variações</h2>
+        <div class="row g-3">
+          <div class="col-md-3 col-sm-6">
+            <div class="metric-card">
+              <div class="metric-title">Peso</div>
+              <div class="metric-value">59,04 kg</div>
+              <div class="metric-change negative">
+                <i class="bi bi-triangle-fill" style="transform: rotate(180deg);"></i>
+                1,6 kg
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="metric-card">
+              <div class="metric-title">% de gordura</div>
+              <div class="metric-value">22,25%</div>
+              <div class="metric-change positive">
+                <i class="bi bi-triangle-fill"></i>
+                0,25%
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="metric-card">
+              <div class="metric-title">Quadril</div>
+              <div class="metric-value">100 cm</div>
+              <div class="metric-change negative">
+                <i class="bi bi-triangle-fill" style="transform: rotate(180deg);"></i>
+                2 cm
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="metric-card">
+              <div class="metric-title">Cintura</div>
+              <div class="metric-value">95 cm</div>
+              <div class="metric-change negative">
+                <i class="bi bi-triangle-fill" style="transform: rotate(180deg);"></i>
+                3 cm
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detalhes -->
+      <div class="detalhes-section">
+        <div class="detail-item">
+          <div>
+            <div class="detail-label">Atividades Físicas</div>
+            <div class="detail-sublabel">Leve (exercícios de 1-3x por semana)</div>
+          </div>
+          <div class="detail-indicator indicator-up"></div>
+        </div>
+        
+        <div class="detail-item">
+          <div>
+            <div class="detail-label">Hábitos de mastigação</div>
+            <div class="detail-sublabel">Rápida</div>
+          </div>
+          <div class="detail-indicator indicator-up"></div>
+        </div>
+        
+        <div class="detail-item">
+          <div>
+            <div class="detail-label">IMC</div>
+            <div class="detail-sublabel">17,5</div>
+          </div>
+          <div class="detail-indicator indicator-down"></div>
+        </div>
+        
+        <div class="detail-item">
+          <div>
+            <div class="detail-label">Altura</div>
+            <div class="detail-sublabel">1,75</div>
+          </div>
+          <div class="detail-indicator indicator-stable"></div>
+        </div>
+        
+        <div class="detail-item">
+          <div>
+            <div class="detail-label">Frequência das refeições</div>
+            <div class="detail-sublabel">1 a 2 refeições principais</div>
+          </div>
+          <div class="detail-indicator indicator-stable"></div>
+        </div>
+        
+        <div class="detail-item">
+          <div>
+            <div class="detail-label">Atividades Físicas</div>
+            <div class="detail-sublabel">Leve (exercícios de 1-3x por semana)</div>
+          </div>
+          <div class="detail-indicator indicator-up"></div>
+        </div>
+        
+        <div class="detail-item">
+          <div>
+            <div class="detail-label">Uso de substâncias</div>
+            <div class="detail-sublabel">Álcool: Bebe socialmente raramente.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Observações -->
+      <div class="observacoes-section">
+        <div class="observacoes-container">
+          <div class="observacao-card">
+            <h3 class="observacao-title">Observações - Aval. #1</h3>
+            <p class="observacao-text">O paciente mostrou uma melhora na frequência do uso de álcool.</p>
+          </div>
+          
+          <div class="arrow-separator">
+            <i class="bi bi-arrow-right"></i>
+          </div>
+          
+          <div class="observacao-card">
+            <h3 class="observacao-title">Observações - Aval. #3</h3>
+            <p class="observacao-text">O paciente mostrou uma melhora nos hábitos de mastigação.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    
+  </body>
+</html>

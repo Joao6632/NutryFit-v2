@@ -1,10 +1,11 @@
+// === CONTROLE DA SIDEBAR ===
 document.addEventListener("DOMContentLoaded", () => {
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.getElementById('mainContent');
     const sidebarToggle = document.getElementById('sidebarToggle');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    // 🔹 Recupera estado salvo no localStorage
+    // Recupera estado salvo no localStorage
     const savedState = localStorage.getItem('sidebarState');
     if (savedState === 'collapsed') {
         sidebar.classList.add('collapsed');
@@ -16,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sidebar.classList.toggle('collapsed');
         if (mainContent) mainContent.classList.toggle('sidebar-collapsed');
 
-        // 🔹 Salva estado no localStorage
+        // Salva estado no localStorage
         localStorage.setItem(
             'sidebarState',
             sidebar.classList.contains('collapsed') ? 'collapsed' : 'expanded'
@@ -34,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 navLinks.forEach(nav => nav.classList.remove('active'));
                 this.classList.add('active');
             } else {
-                // 🔹 Salva estado ANTES de trocar de página
+                // Salva estado ANTES de trocar de página
                 localStorage.setItem(
                     'sidebarState',
                     sidebar.classList.contains('collapsed') ? 'collapsed' : 'expanded'
@@ -45,11 +46,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+// === GRÁFICO DE AVALIAÇÕES ===
 document.addEventListener('DOMContentLoaded', function() {
     const avaliacoes = JSON.parse(localStorage.getItem("nutrifit-avaliacoes")) || [];
     const labels = [];
     const data = [];
-    const hoje = new Date(); // Pega a data de hoje
+    const hoje = new Date();
 
     // Gera os rótulos (labels) para os últimos 7 dias
     for (let i = 6; i >= 0; i--) {
@@ -60,21 +63,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const diaFormatado = diaAtualDoLoop.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
         labels.push(diaFormatado);
         
-        // --- LÓGICA PRINCIPAL (CORRIGIDA) ---
-        // Filtra a lista 'avaliacoes' para encontrar apenas as que ocorreram no 'diaAtualDoLoop'.
+        // Filtra avaliações do dia atual do loop
         const avaliacoesNesteDia = avaliacoes.filter(avaliacao => {
-            // Supondo que cada avaliação tem uma propriedade 'dataAvaliacao'
             let dataDaAvaliacao;
             
-            // Se a data vier como string no formato "YYYY-MM-DD", precisa ajustar para evitar problema de timezone
             if (typeof avaliacao.dataAvaliacao === 'string' && avaliacao.dataAvaliacao.includes('-')) {
-                // Adiciona horário local para evitar conversão UTC
                 dataDaAvaliacao = new Date(avaliacao.dataAvaliacao + 'T12:00:00');
             } else {
                 dataDaAvaliacao = new Date(avaliacao.dataAvaliacao);
             }
             
-            // Normaliza as datas para comparar apenas dia/mês/ano (sem hora)
+            // Normaliza as datas para comparar apenas dia/mês/ano
             const anoAval = dataDaAvaliacao.getFullYear();
             const mesAval = dataDaAvaliacao.getMonth();
             const diaAval = dataDaAvaliacao.getDate();
@@ -83,29 +82,25 @@ document.addEventListener('DOMContentLoaded', function() {
             const mesLoop = diaAtualDoLoop.getMonth();
             const diaLoop = diaAtualDoLoop.getDate();
             
-            // Compara apenas dia, mês e ano
             return anoAval === anoLoop && mesAval === mesLoop && diaAval === diaLoop;
         });
         
-        // A quantidade de avaliações é o tamanho da lista filtrada.
         const quantidadeNesteDia = avaliacoesNesteDia.length;
-        
-        // Adiciona a quantidade real ao array de dados do gráfico.
         data.push(quantidadeNesteDia);
     }
 
-    // --- ETAPA 2: CONFIGURAR O GRÁFICO ---
+    // Configuração do gráfico
     const config = {
-        type: 'bar', // Tipo de gráfico: barras
+        type: 'bar',
         data: {
-            labels: labels, // Nossos dias da semana
+            labels: labels,
             datasets: [{
                 label: 'Avaliações Realizadas',
-                data: data, // Nossos dados reais
-                backgroundColor: '#6c8197', // Cor das barras
+                data: data,
+                backgroundColor: '#6c8197',
                 borderColor: '#536577ff',
                 borderWidth: 1,
-                borderRadius: 5 // Deixa as bordas das barras arredondadas
+                borderRadius: 5
             }]
         },
         options: {
@@ -113,25 +108,22 @@ document.addEventListener('DOMContentLoaded', function() {
             maintainAspectRatio: false,
             scales: {
                 y: {
-                    beginAtZero: true, // Eixo Y começa no zero
+                    beginAtZero: true,
                     ticks: {
-                        // Garante que o eixo Y só mostre números inteiros
                         stepSize: 1 
                     }
                 }
             },
             plugins: {
                 legend: {
-                    display: false // Esconde a legenda "Avaliações Realizadas" no topo
+                    display: false
                 }
             }
         }
     };
 
-    // --- ETAPA 3: RENDERIZAR O GRÁFICO ---
+    // Renderiza o gráfico
     const ctx = document.getElementById('avaliacoesSemanaChart').getContext('2d');
     new Chart(ctx, config);
-
-    const totalAval = quantidadeNesteDia.length;
-    console.log(totalAval)
 });
+
