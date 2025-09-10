@@ -625,7 +625,7 @@ Detalhes de ${paciente.nome}:
     }
 }
 
-// === SISTEMA DE AVALIAÇÕES ===
+// === SISTEMA DE AVALIAÇÕES (ATUALIZADO) ===
 class SistemaAvaliacoes {
     constructor(sistemaPacientes) {
         this.sistemaPacientes = sistemaPacientes;
@@ -672,7 +672,7 @@ class SistemaAvaliacoes {
     carregarAvaliacoesPaciente(pacienteId) {
         const container = document.getElementById('avaliacoesContainer');
         if (!container) return;
-
+                                            
         // Mostrar loading
         container.innerHTML = `
             <div class="avaliacoes-loading">
@@ -716,11 +716,14 @@ class SistemaAvaliacoes {
             return;
         }
 
-        // Adicionar info sobre seleções
+        // Info sobre seleções atualizada
         const infoHTML = `
             <div class="selecoes-info">
-                <div class="contador" id="contadorSelecoes">0 avaliações selecionadas</div>
-                <div class="minimo">Selecione pelo menos 2 avaliações para gerar comparativo</div>
+                <div class="contador" id="contadorSelecoes">Nenhuma avaliação selecionada</div>
+                <div class="limite-info">
+                    <i class="bi bi-info-circle"></i>
+                    Selecione exatamente 2 avaliações para comparar
+                </div>
             </div>
         `;
 
@@ -746,22 +749,70 @@ class SistemaAvaliacoes {
         const avaliacaoId = parseInt(checkbox.value);
 
         if (checkbox.checked) {
+            // Verificar se já tem 2 avaliações selecionadas
+            if (this.avaliacoesSelecionadas.size >= 2) {
+                // Impedir a seleção
+                checkbox.checked = false;
+                this.mostrarMensagem('Você pode selecionar apenas 2 avaliações para comparação', 'error');
+                return;
+            }
+
             this.avaliacoesSelecionadas.add(avaliacaoId);
             avaliacaoItem.classList.add('selected');
+            
+            // Se chegou a 2 seleções, desabilitar outras opções
+            if (this.avaliacoesSelecionadas.size === 2) {
+                this.desabilitarOutrasAvaliacoes();
+            }
         } else {
             this.avaliacoesSelecionadas.delete(avaliacaoId);
             avaliacaoItem.classList.remove('selected');
+            
+            // Se saiu de 2 seleções, habilitar outras opções novamente
+            if (this.avaliacoesSelecionadas.size < 2) {
+                this.habilitarTodasAvaliacoes();
+            }
         }
 
         this.atualizarContador();
-        this.atualizarBotaoComparativo(this.avaliacoesSelecionadas.size >= 2);
+        this.atualizarBotaoComparativo(this.avaliacoesSelecionadas.size === 2);
+    }
+
+    // Novo método para desabilitar outras avaliações quando já tem 2 selecionadas
+    desabilitarOutrasAvaliacoes() {
+        const checkboxes = document.querySelectorAll('.avaliacao-checkbox input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            if (!checkbox.checked) {
+                checkbox.disabled = true;
+                checkbox.closest('.avaliacao-item').classList.add('disabled');
+            }
+        });
+    }
+
+    // Novo método para habilitar todas as avaliações novamente
+    habilitarTodasAvaliacoes() {
+        const checkboxes = document.querySelectorAll('.avaliacao-checkbox input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.disabled = false;
+            checkbox.closest('.avaliacao-item').classList.remove('disabled');
+        });
     }
 
     atualizarContador() {
         const contador = document.getElementById('contadorSelecoes');
         if (contador) {
             const quantidade = this.avaliacoesSelecionadas.size;
-            contador.textContent = `${quantidade} ${quantidade === 1 ? 'avaliação selecionada' : 'avaliações selecionadas'}`;
+            
+            if (quantidade === 0) {
+                contador.textContent = 'Nenhuma avaliação selecionada';
+                contador.className = 'contador';
+            } else if (quantidade === 1) {
+                contador.textContent = '1 avaliação selecionada - Selecione mais 1';
+                contador.className = 'contador partial';
+            } else if (quantidade === 2) {
+                contador.textContent = '2 avaliações selecionadas - Pronto para comparar!';
+                contador.className = 'contador complete';
+            }
         }
     }
 
@@ -774,18 +825,28 @@ class SistemaAvaliacoes {
                     <i class="bi bi-graph-up"></i>
                     Gerar Comparativo
                 `;
+                botao.classList.add('ready');
             } else {
-                botao.innerHTML = `
-                    <i class="bi bi-graph-up"></i>
-                    Selecione 2+ avaliações
-                `;
+                const quantidade = this.avaliacoesSelecionadas.size;
+                if (quantidade === 0) {
+                    botao.innerHTML = `
+                        <i class="bi bi-graph-up"></i>
+                        Selecione 2 avaliações
+                    `;
+                } else if (quantidade === 1) {
+                    botao.innerHTML = `
+                        <i class="bi bi-graph-up"></i>
+                        Selecione mais 1 avaliação
+                    `;
+                }
+                botao.classList.remove('ready');
             }
         }
     }
 
     gerarComparativo() {
-        if (this.avaliacoesSelecionadas.size < 2) {
-            this.mostrarMensagem('Selecione pelo menos 2 avaliações para comparar', 'error');
+        if (this.avaliacoesSelecionadas.size !== 2) {
+            this.mostrarMensagem('Selecione exatamente 2 avaliações para comparar', 'error');
             return;
         }
 
@@ -798,13 +859,13 @@ class SistemaAvaliacoes {
             dataComparativo: new Date().toISOString()
         }));
 
-        this.mostrarMensagem(`Comparativo gerado com ${this.avaliacoesSelecionadas.size} avaliações!`, 'success');
+        this.mostrarMensagem('Comparativo gerado com 2 avaliações!', 'success');
         
         // Fechar modal
         this.fecharModal();
         
-      
-        window.location.href = '../dRelatorio/Relatorio.html';
+        // Redirecionar para página de relatório
+        window.location.href = '../dRelatorio/Comparacao/comparacao.html';
         
         console.log('Dados salvos para comparativo:', {
             paciente: this.pacienteAtual.nome,

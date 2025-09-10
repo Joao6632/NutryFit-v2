@@ -293,16 +293,16 @@ body {
     margin-left: 15px;
 }
 
-.indicator-up {
-    background: var(--color-success);
+.detail-indicator-up {
+    color: var(--color-secondary);
 }
 
-.indicator-down {
-    background: var(--color-danger);
+.detail-indicator-down {
+    color: var(--color-secondary);
 }
 
-.indicator-stable {
-    background: var(--color-secondary);
+.detail-indicator-stable {
+    color: var(--color-secondary);
 }
 
 /* === OBSERVAÇÕES === */

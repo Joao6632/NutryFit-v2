@@ -1,48 +1,11 @@
+// ==== ELEMENTOS DO DOM ====
 const container = document.getElementById('container');
-        const slidingPanel = document.getElementById('slidingPanel');
-        const switchButton = document.getElementById('switchButton');
-        const panelTitle = document.getElementById('panelTitle');
-        const panelContent = document.getElementById('panelContent');
-        
-        let isLoginMode = false;
+const slidingPanel = document.getElementById('slidingPanel');
+const switchButton = document.getElementById('switchButton');
+const panelTitle = document.getElementById('panelTitle');
+const panelContent = document.getElementById('panelContent');
 
-        switchButton.addEventListener('click', () => {
-            // Adiciona classe de animação
-            container.classList.add('animating');
-            
-            if (!isLoginMode) {
-                // Vai para modo login - painel desliza para direita
-                slidingPanel.classList.add('move-right');
-                
-                // Após um pequeno delay, muda o conteúdo do painel
-                setTimeout(() => {
-                    panelTitle.innerHTML = 'Não tem uma conta? <br>Cadastre-se agora!';
-                    switchButton.textContent = 'Crie uma conta!';
-                }, 500);
-                
-                isLoginMode = true;
-            } else {
-                // Volta para modo cadastro - painel desliza para esquerda
-                slidingPanel.classList.remove('move-right');
-                
-                // Após um pequeno delay, muda o conteúdo do painel
-                setTimeout(() => {
-                    panelTitle.innerHTML = 'Já possui uma<br>conta?';
-                    switchButton.textContent = 'Entre em uma conta existente!';
-                }, 500);
-                
-                isLoginMode = false;
-            }
-            
-            // Remove classe de animação após a transição
-            setTimeout(() => {
-                container.classList.remove('animating');
-            }, 1000);
-        });
-
-        // Elementos do DOM
-
-const authContainer = document.getElementById('authContainer');
+// Página inicial
 const homePage = document.getElementById('homePage');
 const welcomeMessage = document.getElementById('welcomeMessage');
 const logoutButton = document.getElementById('logoutButton');
@@ -53,11 +16,32 @@ const loginForm = document.getElementById('loginFormElement');
 const signupMessage = document.getElementById('signupMessage');
 const loginMessage = document.getElementById('loginMessage');
 
-// Controle de estado
-let users = {}; // Armazena usuários cadastrados em memória
+// ==== CONTROLE DE ESTADO ====
+let isLoginMode = false;
 let currentUser = null;
 
-// Função para exibir mensagens
+// ==== STORAGE ====
+function getUsersFromStorage() {
+    return JSON.parse(localStorage.getItem('nutryfit_users')) || {};
+}
+
+function saveUsersToStorage(users) {
+    localStorage.setItem('nutryfit_users', JSON.stringify(users));
+}
+
+function getCurrentUser() {
+    return JSON.parse(localStorage.getItem('nutryfit_current_user')) || null;
+}
+
+function saveCurrentUser(user) {
+    localStorage.setItem('nutryfit_current_user', JSON.stringify(user));
+}
+
+function clearCurrentUser() {
+    localStorage.removeItem('nutryfit_current_user');
+}
+
+// ==== FUNÇÕES DE UI ====
 function showMessage(elementId, message, type) {
     const element = document.getElementById(elementId);
     element.innerHTML = `<div class="message ${type}">${message}</div>`;
@@ -66,225 +50,174 @@ function showMessage(elementId, message, type) {
     }, 5000);
 }
 
-// Função para validar email
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
-// Função para limpar formulários
 function clearForms() {
-    signupForm.reset();
-    loginForm.reset();
-    signupMessage.innerHTML = '';
-    loginMessage.innerHTML = '';
+    if (signupForm) signupForm.reset();
+    if (loginForm) loginForm.reset();
+    if (signupMessage) signupMessage.innerHTML = '';
+    if (loginMessage) loginMessage.innerHTML = '';
 }
 
-// Função para alternar entre login e cadastro
-switchButton.addEventListener('click', () => {
+function toggleForms(forceLogin = false) {
     container.classList.add('animating');
-    
-    // Limpar mensagens
-    signupMessage.innerHTML = '';
-    loginMessage.innerHTML = '';
-    
-    if (!isLoginMode) {
-        // Vai para modo login - painel desliza para direita
+
+    if (signupMessage) signupMessage.innerHTML = '';
+    if (loginMessage) loginMessage.innerHTML = '';
+
+    if (!isLoginMode || forceLogin) {
         slidingPanel.classList.add('move-right');
-        
-        // Após um pequeno delay, muda o conteúdo do painel
         setTimeout(() => {
             panelTitle.innerHTML = 'Não tem uma conta? <br>Cadastre-se agora!';
             switchButton.textContent = 'Crie uma conta!';
         }, 500);
-        
         isLoginMode = true;
     } else {
-        // Volta para modo cadastro - painel desliza para esquerda
         slidingPanel.classList.remove('move-right');
-        
-        // Após um pequeno delay, muda o conteúdo do painel
         setTimeout(() => {
             panelTitle.innerHTML = 'Já possui uma<br>conta?';
             switchButton.textContent = 'Entre em uma conta existente!';
         }, 500);
-        
         isLoginMode = false;
     }
-    
-    // Remove classe de animação após a transição
+
     setTimeout(() => {
         container.classList.remove('animating');
     }, 1000);
-});
+}
 
-// Processamento do cadastro
-signupForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const nome = document.getElementById('nome').value.trim();
-    const email = document.getElementById('email-signup').value.trim().toLowerCase();
-    const senha = document.getElementById('senha-signup').value;
-    const confirmarSenha = document.getElementById('confirmar-senha').value;
-    
-    // Validações
-    if (!nome) {
-        showMessage('signupMessage', 'Por favor, digite seu nome.', 'error');
-        return;
-    }
-    
-    if (nome.length < 2) {
-        showMessage('signupMessage', 'Nome deve ter pelo menos 2 caracteres.', 'error');
-        return;
-    }
-    
-    if (!isValidEmail(email)) {
-        showMessage('signupMessage', 'Por favor, digite um email válido.', 'error');
-        return;
-    }
-    
-    if (senha.length < 6) {
-        showMessage('signupMessage', 'A senha deve ter pelo menos 6 caracteres.', 'error');
-        return;
-    }
-    
-    if (senha !== confirmarSenha) {
-        showMessage('signupMessage', 'As senhas não coincidem.', 'error');
-        return;
-    }
-    
-    // Verificar se o email já existe
-    if (users[email]) {
-        showMessage('signupMessage', 'Este email já está cadastrado.', 'error');
-        return;
-    }
-    
-    // Cadastrar usuário
-    users[email] = {
-        nome: nome,
-        email: email,
-        senha: senha
-    };
-    
-    console.log('Usuário cadastrado:', users[email]); // Para debug
-    
-    showMessage('signupMessage', 'Cadastro realizado com sucesso! Agora você pode fazer login.', 'success');
-    
-    // Limpar formulário de cadastro
-    signupForm.reset();
-    
-    // Após 2 segundos, mover automaticamente para o login
-    setTimeout(() => {
-        if (!isLoginMode) {
-            switchButton.click(); // Simula clique no botão para ir para login
-        }
-    }, 2000);
-});
-
-// Processamento do login
-loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const email = document.getElementById('email-login').value.trim().toLowerCase();
-    const senha = document.getElementById('senha-login').value;
-    
-    // Validações básicas
-    if (!email || !senha) {
-        showMessage('loginMessage', 'Por favor, preencha todos os campos.', 'error');
-        return;
-    }
-    
-    if (!isValidEmail(email)) {
-        showMessage('loginMessage', 'Por favor, digite um email válido.', 'error');
-        return;
-    }
-    
-    // Verificar credenciais
-    const user = users[email];
-    
-    if (!user) {
-        showMessage('loginMessage', 'Email não encontrado. Verifique suas credenciais ou cadastre-se.', 'error');
-        return;
-    }
-    
-    if (user.senha !== senha) {
-        showMessage('loginMessage', 'Senha incorreta. Tente novamente.', 'error');
-        return;
-    }
-    
-    // Login bem-sucedido
-    currentUser = user;
-    showMessage('loginMessage', 'Login realizado com sucesso! Redirecionando...', 'success');
-    
-    console.log('Login bem-sucedido:', currentUser); // Para debug
-    
-    // Redirecionar para a página inicial após 1.5 segundos
-    setTimeout(() => {
-        redirectToHome();
-    }, 1500);
-});
-
-// Função para redirecionar para a página inicial
 function redirectToHome() {
-    authContainer.style.display = 'none';
-    homePage.classList.add('active');
-    welcomeMessage.textContent = `Olá, ${currentUser.nome}! Sua jornada fitness começa agora.`;
-    
-    // Limpar formulários
-    clearForms();
+    window.location.href = "../cDashBoard/aInicio/Inicio.html"; // <-- coloca aqui o caminho da tua página inicial
 }
 
-// Função de logout
-logoutButton.addEventListener('click', () => {
-    currentUser = null;
-    homePage.classList.remove('active');
-    authContainer.style.display = 'block';
-    
-    // Resetar para modo cadastro
-    if (isLoginMode) {
-        switchButton.click();
+// ==== LOGOUT ====
+if (logoutButton) {
+    logoutButton.addEventListener('click', () => {
+        currentUser = null;
+        clearCurrentUser();
+        homePage.classList.remove('active');
+        container.style.display = 'flex';
+
+        if (isLoginMode) {
+            toggleForms();
+        }
+        clearForms();
+        console.log('Logout realizado');
+    });
+}
+
+// ==== VERIFICAR LOGIN AUTOMÁTICO ====
+function checkLoggedUser() {
+    const savedUser = getCurrentUser();
+    if (savedUser) {
+        currentUser = savedUser;
+        redirectToHome();
     }
-    
-    // Limpar formulários
-    clearForms();
-    
-    console.log('Logout realizado'); // Para debug
-});
-
-// Função para debug - mostrar usuários cadastrados (pode remover em produção)
-function mostrarUsuarios() {
-    console.log('Usuários cadastrados:', users);
 }
 
-// Adicionar alguns usuários de teste (opcional - pode remover)
-// users['teste@teste.com'] = {
-//     nome: 'Usuário Teste',
-//     email: 'teste@teste.com',
-//     senha: '123456'
-// };
-
-// Event listeners adicionais para melhor UX
+// ==== EVENTOS DE PÁGINA ====
 document.addEventListener('DOMContentLoaded', () => {
-    // Focar no primeiro campo quando a página carregar
-    document.getElementById('nome').focus();
-    
-    // Permitir Enter para alternar entre campos
+    checkLoggedUser();
+
+    if (!currentUser) {
+        const nomeInput = document.getElementById('nome');
+        if (nomeInput) nomeInput.focus();
+    }
+
     const inputs = document.querySelectorAll('input');
     inputs.forEach((input, index) => {
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && input.type !== 'submit') {
                 e.preventDefault();
                 const nextInput = inputs[index + 1];
-                if (nextInput) {
-                    nextInput.focus();
-                }
+                if (nextInput) nextInput.focus();
             }
         });
     });
 });
 
-// Função para verificar se há usuários cadastrados (útil para debug)
-function temUsuarios() {
-    return Object.keys(users).length > 0;
+// ==== BOTÃO TROCAR FORM ====
+switchButton.addEventListener('click', () => toggleForms());
+
+// ==== CADASTRO ====
+if (signupForm) {
+    signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const nome = document.getElementById('nome').value.trim();
+        const email = document.getElementById('email-signup').value.trim().toLowerCase();
+        const senha = document.getElementById('senha-signup').value;
+        const confirmarSenha = document.getElementById('confirmar-senha').value;
+
+        if (!nome) {
+            showMessage('signupMessage', 'Por favor, digite seu nome.', 'error');
+            return;
+        }
+        if (nome.length < 2) {
+            showMessage('signupMessage', 'Nome deve ter pelo menos 2 caracteres.', 'error');
+            return;
+        }
+        if (!isValidEmail(email)) {
+            showMessage('signupMessage', 'Por favor, insira um email válido.', 'error');
+            return;
+        }
+        if (senha.length < 6) {
+            showMessage('signupMessage', 'Senha deve ter pelo menos 6 caracteres.', 'error');
+            return;
+        }
+        if (senha !== confirmarSenha) {
+            showMessage('signupMessage', 'As senhas não conferem.', 'error');
+            return;
+        }
+
+        const users = getUsersFromStorage();
+        if (users[email]) {
+            showMessage('signupMessage', 'Este email já está cadastrado.', 'error');
+            return;
+        }
+
+        const newUser = {
+            nome,
+            email,
+            senha,
+            dataCadastro: new Date().toISOString()
+        };
+
+        users[email] = newUser;
+        saveUsersToStorage(users);
+
+        // 🔹 mostra mensagem e joga pro login
+        showMessage('signupMessage', 'Cadastro realizado! Agora faça login.', 'success');
+        clearForms();
+        toggleForms(true); // força mudar pro login
+    });
 }
-        
+
+// ==== LOGIN ====
+if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email-login').value.trim().toLowerCase();
+        const senha = document.getElementById('senha-login').value;
+
+        const users = getUsersFromStorage();
+
+        if (!users[email]) {
+            showMessage('loginMessage', 'Usuário não encontrado.', 'error');
+            return;
+        }
+
+        if (users[email].senha !== senha) {
+            showMessage('loginMessage', 'Senha incorreta.', 'error');
+            return;
+        }
+
+        currentUser = users[email];
+        saveCurrentUser(currentUser);
+        redirectToHome();
+    });
+}

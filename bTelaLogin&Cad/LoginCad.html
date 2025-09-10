@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="LoginCad.css">
 </head>
 <body>
+    <!-- Tela de autenticação -->
     <div class="container" id="container">
         <!-- Painel azul deslizante -->
         <div class="sliding-panel" id="slidingPanel">
@@ -18,24 +19,31 @@
 
         <!-- Formulário de Cadastro (lado direito inicialmente) -->
         <div class="form-section signup-section">
-            <div class="form-container" id="signupForm">
+            <div class="form-container">
                 <h1>Para começar, crie<br>sua conta!</h1>
                 <p class="subtitle">Insira as informações da sua nova conta!</p>
                 
-                <form>
+                <div id="signupMessage"></div>
+                
+                <form id="signupFormElement">
                     <div class="form-group">
                         <label for="nome">Nome</label>
-                        <input type="text" id="nome" placeholder="Digite seu nome">
+                        <input type="text" id="nome" placeholder="Digite seu nome" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="email-signup">Email</label>
-                        <input type="email" id="email-signup" placeholder="Digite seu email">
+                        <input type="email" id="email-signup" placeholder="Digite seu email" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="senha-signup">Senha</label>
-                        <input type="password" id="senha-signup" placeholder="Crie sua senha">
+                        <input type="password" id="senha-signup" placeholder="Crie sua senha" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmar-senha">Confirmar Senha</label>
+                        <input type="password" id="confirmar-senha" placeholder="Confirme sua senha" required>
                     </div>
                     
                     <button type="submit" class="submit-button">Cadastrar</button>
@@ -45,19 +53,21 @@
 
         <!-- Formulário de Login (lado esquerdo, inicialmente escondido atrás do painel) -->
         <div class="form-section login-section">
-            <div class="form-container" id="loginForm">
+            <div class="form-container">
                 <h1>Olá, Bem vindo(a)<br>novamente!</h1>
                 <p class="subtitle">Insira suas credenciais para realizar o Login.</p>
+
+                <div id="loginMessage"></div>
                 
-                <form>
+                <form id="loginFormElement">
                     <div class="form-group">
                         <label for="email-login">Email</label>
-                        <input type="email" id="email-login" placeholder="Digite seu email">
+                        <input type="email" id="email-login" placeholder="Digite seu email" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="senha-login">Senha</label>
-                        <input type="password" id="senha-login" placeholder="Digite sua senha">
+                        <input type="password" id="senha-login" placeholder="Digite sua senha" required>
                     </div>
                     
                     <button type="submit" class="submit-button">Entrar</button>
@@ -65,5 +75,7 @@
             </div>
         </div>
     </div>
+
+    <script src="LoginCad.js"></script>
 </body>
 </html>
