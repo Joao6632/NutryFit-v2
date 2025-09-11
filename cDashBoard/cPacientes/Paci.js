@@ -865,7 +865,7 @@ class SistemaAvaliacoes {
         this.fecharModal();
         
         // Redirecionar para página de relatório
-        window.location.href = '../dRelatorio/Comparacao/comparacao.html';
+        window.location.href = '../dRelatorio/Relatorio.html';
         
         console.log('Dados salvos para comparativo:', {
             paciente: this.pacienteAtual.nome,
