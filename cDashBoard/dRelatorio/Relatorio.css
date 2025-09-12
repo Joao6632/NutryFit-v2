@@ -211,13 +211,8 @@ body {
     text-decoration: none;
     
     /* Correções para elemento <a> */
-    display: block; /* ou inline-block se preferir */
-    color: inherit; /* herda a cor do elemento pai */
-    
-    /* Removi white-space: nowrap - pode causar problemas de layout */
-    /* Se precisar manter o texto em uma linha, use: */
-    /* overflow: hidden;
-       text-overflow: ellipsis; */
+    display: block; 
+    color: inherit; 
 }
 
 /* Estado hover para melhor UX */

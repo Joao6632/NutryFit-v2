@@ -1,16 +1,53 @@
+// =================================================================================
+// CLASSE QUE DEFINE A ESTRUTURA E AS AÇÕES DE UM RELATÓRIO
+// =================================================================================
+class Relatorio {
+    /**
+     * @param {object} paciente
+     * @param {object} avaliacao1
+     * @param {object} avaliacao2
+     * @param {string} [titulo='']
+     */
+    constructor(paciente, avaliacao1, avaliacao2, titulo = '') {
+        this.id = `rel-${new Date().getTime()}`;
+        this.pacienteId = paciente.id;
+        this.pacienteNome = paciente.nome;
+        this.titulo = titulo || `Comparativo de ${paciente.nome}`;
+        this.dataCriacao = new Date().toISOString();
+        this.idAvaliacao1 = avaliacao1.id;
+        this.idAvaliacao2 = avaliacao2.id;
+    }
+
+    /** Salva a instância atual do relatório na lista de relatórios. */
+    salvar() {
+        const relatoriosExistentes = Relatorio.listarTodos();
+        relatoriosExistentes.push(this);
+        localStorage.setItem('nutrifit-relatorios', JSON.stringify(relatoriosExistentes));
+    }
+
+    /** @returns {Array} Uma lista de todos os relatórios salvos. */
+    static listarTodos() {
+        const dados = localStorage.getItem('nutrifit-relatorios');
+        return dados ? JSON.parse(dados) : [];
+    }
+
+    /**
+     * @param {string} id O ID do relatório a ser buscado.
+     * @returns {object | undefined} O objeto do relatório ou undefined se não for encontrado.
+     */
+    static buscarPorId(id) {
+        const todos = Relatorio.listarTodos();
+        return todos.find(relatorio => relatorio.id === id);
+    }
+}
+
+
+// =================================================================================
+// LÓGICA PRINCIPAL DA PÁGINA DE LISTAGEM DE RELATÓRIOS
+// =================================================================================
 document.addEventListener("DOMContentLoaded", () => {
-    // Armazena a lista de relatórios para ser usada pela função de busca
-    let listaDeRelatorios = [];
 
-    const inicializar = () => {
-        configurarSidebar();
-        configurarLogout();
-        
-        listaDeRelatorios = carregarRelatoriosDoStorage();
-        renderizarCards(listaDeRelatorios);
-
-        configurarBusca(listaDeRelatorios);
-    };
+    // --- FUNÇÕES DE CONFIGURAÇÃO DA PÁGINA ---
 
     const configurarSidebar = () => {
         const sidebar = document.getElementById("sidebar");
@@ -46,98 +83,80 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // -------------------------------------------------------------------------------------------
+    // --- FUNÇÕES DE LÓGICA DOS RELATÓRIOS ---
 
-    const carregarRelatoriosDoStorage = () => {
-        const todasAvaliacoes = JSON.parse(localStorage.getItem("nutrifit-avaliacoes") || "[]");
-        const pacientesMap = new Map();
-
-        // Agrupa todas as avaliações por paciente
-        todasAvaliacoes.forEach((avaliacao) => {
-            if (!pacientesMap.has(avaliacao.pacienteId)) {
-                pacientesMap.set(avaliacao.pacienteId, {
-                    pacienteNome: avaliacao.pacienteNome,
-                    avaliacoes: []
-                });
-            }
-            pacientesMap.get(avaliacao.pacienteId).avaliacoes.push(avaliacao);
-        });
-
-        const relatoriosValidos = [];
-        pacientesMap.forEach((pacienteData) => {
-            // Um relatório só é válido se o paciente tiver 2 ou mais avaliações
-            if (pacienteData.avaliacoes.length >= 2) {
-                // Ordena para encontrar a avaliação mais recente
-                pacienteData.avaliacoes.sort((a, b) => new Date(b.dataAvaliacao) - new Date(a.dataAvaliacao));
-                const ultimaAvaliacao = pacienteData.avaliacoes[0];
-                
-                relatoriosValidos.push({
-                    id: ultimaAvaliacao.id,
-                    pacienteNome: pacienteData.pacienteNome,
-                    dataAvaliacao: ultimaAvaliacao.dataAvaliacao,
-                    totalAvaliacoes: pacienteData.avaliacoes.length,
-                });
-            }
-        });
-
-        // Retorna os relatórios ordenados por nome
-        return relatoriosValidos.sort((a, b) => a.pacienteNome.localeCompare(b.pacienteNome));
-    };
-
+    /** Renderiza os cards de relatório na tela. */
     const renderizarCards = (relatorios) => {
         const container = document.getElementById("relatorios-lista");
-        const searchInput = document.getElementById("searchInput");
-        container.innerHTML = "";
+        if (!container) return;
+
+        container.innerHTML = ""; // Limpa a lista antes de renderizar
 
         if (relatorios.length === 0) {
-            if (searchInput.value) {
-                 container.innerHTML = '<p class="feedback-text">Nenhum paciente encontrado com este nome.</p>';
-            } else {
-                 container.innerHTML = '<p class="feedback-text">Nenhum relatório disponível. Os pacientes precisam ter pelo menos 2 avaliações.</p>';
-            }
+            container.innerHTML = '<p class="feedback-text">Nenhum relatório foi gerado ainda.</p>';
             return;
         }
 
-        relatorios.forEach((relatorio) => {
-            // Cria o link do card
+        relatorios.forEach(relatorio => {
             const cardLink = document.createElement("a");
             cardLink.href = `Comparacao/Comparacao.html?id=${relatorio.id}`;
             cardLink.className = "relatorio-card";
 
-            // Adiciona o conteúdo interno do card, sem ícones novos
             cardLink.innerHTML = `
                 <div class="relatorio-content">
-                    <span class="card-text">Relatório - ${relatorio.pacienteNome}</span>
-                    <span class="card-text-data">${formatarData(relatorio.dataAvaliacao)}</span>
+                    <span class="card-text">${relatorio.titulo}</span>
                     
+                    <span class="card-text">Criado em: ${formatarData(relatorio.dataCriacao)}</span>
                 </div>
+                
             `;
             container.appendChild(cardLink);
         });
     };
-    
 
-
-    const formatarData = (dataString) => {
-        if (!dataString) return "Data não informada";
-        // Corrige problemas de fuso horário que podem alterar o dia
-        const data = new Date(dataString);
-        const dataCorrigida = new Date(data.valueOf() + data.getTimezoneOffset() * 60000);
-        return dataCorrigida.toLocaleDateString("pt-BR");
-    };
-    
-
+    /** Configura a barra de busca para filtrar os relatórios. */
     const configurarBusca = (relatorios) => {
         const searchInput = document.getElementById("searchInput");
+        if (!searchInput) return;
+
         searchInput.addEventListener("input", (e) => {
             const termoBusca = e.target.value.toLowerCase();
             const relatoriosFiltrados = relatorios.filter(relatorio =>
+                relatorio.titulo.toLowerCase().includes(termoBusca) ||
                 relatorio.pacienteNome.toLowerCase().includes(termoBusca)
             );
             renderizarCards(relatoriosFiltrados);
         });
     };
 
-    // Inicia tudo
-    inicializar();
+    /** Formata uma string de data para o padrão pt-BR. */
+    const formatarData = (dataString) => {
+        if (!dataString) return "Data inválida";
+        const data = new Date(dataString);
+        return data.toLocaleDateString("pt-BR", {
+            day: '2-digit', month: '2-digit', year: 'numeric'
+        });
+    };
+
+
+    // --- INICIALIZAÇÃO DA PÁGINA ---
+
+    /** Função principal que executa todas as outras na ordem correta. */
+    const inicializarPagina = () => {
+        configurarSidebar();
+        configurarLogout();
+        
+        // Carrega os relatórios usando o método estático da classe
+        let todosOsRelatorios = Relatorio.listarTodos();
+        
+        // Ordena os relatórios (mais recentes primeiro)
+        todosOsRelatorios.sort((a, b) => new Date(b.dataCriacao) - new Date(a.dataCriacao));
+        
+        // Exibe os relatórios na tela e configura a busca
+        renderizarCards(todosOsRelatorios);
+        configurarBusca(todosOsRelatorios);
+    };
+
+    // Ponto de entrada: chama a função principal
+    inicializarPagina();
 });

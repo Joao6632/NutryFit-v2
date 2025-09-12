@@ -844,35 +844,36 @@ class SistemaAvaliacoes {
         }
     }
 
-    gerarComparativo() {
-        if (this.avaliacoesSelecionadas.size !== 2) {
-            this.mostrarMensagem('Selecione exatamente 2 avaliações para comparar', 'error');
-            return;
-        }
+    // DENTRO DA CLASSE SistemaAvaliacoes
 
-        // Salvar avaliações selecionadas para a página de comparativo
-        const avaliacoesSelecionadasArray = Array.from(this.avaliacoesSelecionadas);
-        localStorage.setItem('nutrifit-comparativo-avaliacoes', JSON.stringify({
-            pacienteId: this.pacienteAtual.id,
-            pacienteNome: this.pacienteAtual.nome,
-            avaliacoes: avaliacoesSelecionadasArray,
-            dataComparativo: new Date().toISOString()
-        }));
-
-        this.mostrarMensagem('Comparativo gerado com 2 avaliações!', 'success');
-        
-        // Fechar modal
-        this.fecharModal();
-        
-        // Redirecionar para página de relatório
-        window.location.href = '../dRelatorio/Relatorio.html';
-        
-        console.log('Dados salvos para comparativo:', {
-            paciente: this.pacienteAtual.nome,
-            avaliacoes: avaliacoesSelecionadasArray
-        });
+gerarComparativo() {
+    if (this.avaliacoesSelecionadas.size !== 2) {
+        this.mostrarMensagem('Selecione exatamente 2 avaliações para comparar', 'error');
+        return;
     }
+    const todasAvaliacoes = this.buscarAvaliacoesDoPaciente(this.pacienteAtual.id);
+    const [id1, id2] = Array.from(this.avaliacoesSelecionadas);
+    
+    const avaliacaoObj1 = todasAvaliacoes.find(av => av.id === id1);
+    const avaliacaoObj2 = todasAvaliacoes.find(av => av.id === id2);
+    if (!avaliacaoObj1 || !avaliacaoObj2) {
+        this.mostrarMensagem('Erro ao encontrar dados das avaliações selecionadas.', 'error');
+        return;
+    }
+    
+    // Garante que a avaliação mais antiga venha primeiro
+    const [avaliacaoAntiga, avaliacaoNova] = [avaliacaoObj1, avaliacaoObj2].sort((a, b) => new Date(a.dataAvaliacao) - new Date(b.dataAvaliacao));
 
+    // 2. Cria uma nova instância da classe Relatorio
+    const novoRelatorio = new Relatorio(this.pacienteAtual, avaliacaoAntiga, avaliacaoNova);
+
+    // 3. Usa o método .salvar() da classe para persistir o relatório
+    novoRelatorio.salvar();
+    
+    this.mostrarMensagem('Relatório criado com sucesso!', 'success');
+    this.fecharModal();
+    window.location.href = `../dRelatorio/Comparacao/Comparacao.html?id=${novoRelatorio.id}`;
+}
     formatarData(dataString) {
         try {
             const data = new Date(dataString);
@@ -881,7 +882,6 @@ class SistemaAvaliacoes {
             return 'Data inválida';
         }
     }
-
     abrirModal() {
         const modalElement = document.getElementById('modalAvaliacoesPaciente');
         if (modalElement && window.bootstrap) {
@@ -891,7 +891,6 @@ class SistemaAvaliacoes {
             console.error('Modal de avaliações não encontrado ou Bootstrap não disponível');
         }
     }
-
     fecharModal() {
         const modalElement = document.getElementById('modalAvaliacoesPaciente');
         if (modalElement && window.bootstrap) {
@@ -922,3 +921,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 100);
 });
+// === CLASSE RELATORIO (NOVA) ===
+class Relatorio {
+    /**
+     * Construtor da classe Relatorio.
+     * @param {object} paciente - O objeto do paciente.
+     * @param {object} avaliacao1 - O objeto da primeira avaliação.
+     * @param {object} avaliacao2 - O objeto da segunda avaliação.
+     * @param {string} [titulo=''] - Um título opcional para o relatório.
+     */
+    constructor(paciente, avaliacao1, avaliacao2, titulo = '') {
+        this.id = `rel-${new Date().getTime()}`;
+        this.pacienteId = paciente.id;
+        this.pacienteNome = paciente.nome;
+        this.titulo = titulo || `Comparativo de ${paciente.nome}`;
+        this.dataCriacao = new Date().toISOString();
+        // Apenas os IDs (referências) são salvos para manter o objeto leve
+        this.idAvaliacao1 = avaliacao1.id;
+        this.idAvaliacao2 = avaliacao2.id;
+    }
+
+    salvar() {
+        const relatoriosExistentes = Relatorio.listarTodos();
+        relatoriosExistentes.push(this);
+        localStorage.setItem('nutrifit-relatorios', JSON.stringify(relatoriosExistentes));
+    }
+
+    /**
+     * Método estático para buscar todos os relatórios do localStorage.
+     *@returns {Array} Uma lista de todos os relatórios.
+     */
+    static listarTodos() {
+        const dados = localStorage.getItem('nutrifit-relatorios');
+        return dados ? JSON.parse(dados) : [];
+    }
+}

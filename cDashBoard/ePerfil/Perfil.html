@@ -66,24 +66,114 @@
         </div>
       </div>
     </div>
-     <!-- Bootstrap JS -->
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content" id="mainContent">
+      <div class="profile-header">
+        <h1 class="profile-title">Meu Perfil</h1>
+
+        <!-- Dados Profissionais (APENAS VISUALIZAÇÃO) -->
+        <div class="section-title">Dados Profissionais</div>
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label">Nome completo</label>
+              <div class="form-display-field" id="displayNomeCompleto">
+                <span class="display-text">-</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label">Telefone</label>
+              <div class="form-display-field" id="displayTelefone">
+                <span class="display-text">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label">Email Profissional</label>
+              <div class="form-display-field" id="displayEmailProfissional">
+                <span class="display-text">-</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+          <label class="form-label">Logo</label>
+          <div class="logo-display">
+          <img src="../../assets/nutrifiticon.png" alt="Logo NutryFit" class="logo-img">
+          <span class="logo-text">NutryFit</span>
+        </div>
+      </div>
+
+        <div class="divider"></div>
+
+        <!-- Configurações -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="section-title">Configurações</div>
+            <div class="section-title" style="font-size: 1.1rem; margin-top: 1rem;">Alterar informações</div>
+            
+            <!-- Campo para alterar nome -->
+            <div class="form-group">
+              <label class="form-label">Alterar nome</label>
+              <input type="text" class="form-control-custom" placeholder="Novo nome completo" id="novoNome">
+            </div>
+
+            <!-- Campo para alterar telefone com máscara -->
+            <div class="form-group">
+              <label class="form-label">Alterar telefone</label>
+              <input type="tel" class="form-control-custom" placeholder="(00) 00000-0000" id="novoTelefone">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Alterar email</label>
+              <input type="email" class="form-control-custom" placeholder="Novo email" id="novoEmail">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Alterar senha</label>
+              <input type="password" class="form-control-custom" placeholder="Nova senha" id="novaSenha">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Senha atual *</label>
+              <input type="password" class="form-control-custom" placeholder="Confirmar senha atual" id="senhaAtual">
+            </div>
+
+            <button class="btn-custom" id="btnAlterar">Alterar</button>
+          </div>
+
+          <div class="col-md-6">
+            <div class="section-title">Exportação de relatórios</div>
+            
+            <div class="checkbox-custom">
+              <label>
+                <input type="checkbox" id="usarLogo">
+                Usar logo no rodapé dos documentos.
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Informações para o rodapé dos documentos</label>
+              <textarea class="form-control-custom" rows="3" placeholder="Nome, endereço, contato..." id="infoRodape"></textarea>
+              <div class="info-text">
+                Dica: Indique as informações a serem impressas por padrão no rodapé dos documentos.
+              </div>
+            </div>
+
+            <button class="btn-secondary-custom" id="btnSalvarAlteracoes">Salvar alterações</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const logoutLink = document.querySelector(".logout-section .nav-link");
-
-    if (logoutLink) {
-        logoutLink.addEventListener("click", (e) => {
-            e.preventDefault();
-
-            const confirmar = confirm("Tem certeza que quer sair?");
-            if (confirmar) {
-                localStorage.removeItem("nutryfit_current_user");
-                window.location.href = "../../bTelaLogin&Cad/LoginCad.html"; // <-- ajusta o caminho aqui
-            }
-        });
-    }
-});
-</script>
   </body>
 </html>
