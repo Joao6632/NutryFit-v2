@@ -266,6 +266,7 @@ class SistemaAvaliacoes {
             imc: formData.imc,
             objetivosNutricionais: formData.objetivosNutricionais, // CORRIGIDO: Salvar objetivos
             observacoes: formData.observacoes,
+            detalhesSubstancias: paciente.detalhesSubstancias || '',
             dataCriacao: new Date().toISOString()
         };
 
@@ -546,16 +547,24 @@ class SistemaAvaliacoes {
 
         // Uso de substâncias
         let substanciasTexto = '';
-        if (paciente.usoSubstancias) {
+        if (avaliacao.usoSubstancias) {
+            if (Array.isArray(avaliacao.usoSubstancias)) {
+                substanciasTexto = avaliacao.usoSubstancias.join(', ');
+            } else if (typeof avaliacao.usoSubstancias === 'string') {
+                substanciasTexto = avaliacao.usoSubstancias;
+            }
+        } else if (paciente.usoSubstancias) {
             if (Array.isArray(paciente.usoSubstancias)) {
                 substanciasTexto = paciente.usoSubstancias.join(', ');
             } else if (typeof paciente.usoSubstancias === 'string') {
                 substanciasTexto = paciente.usoSubstancias;
             }
-            
-            if (paciente.detalhesSubstancias) {
-                substanciasTexto += `\nDetalhes: ${paciente.detalhesSubstancias}`;
-            }
+        }
+        // Detalhes do uso de substâncias
+        if (avaliacao.detalhesSubstancias && avaliacao.detalhesSubstancias.trim() !== '') {
+            substanciasTexto += `\nDetalhes: ${avaliacao.detalhesSubstancias}`;
+        } else if (paciente.detalhesSubstancias && paciente.detalhesSubstancias.trim() !== '') {
+            substanciasTexto += `\nDetalhes: ${paciente.detalhesSubstancias}`;
         }
         setElementText('infoSubstancias', substanciasTexto);
 
