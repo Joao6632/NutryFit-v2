@@ -1,13 +1,4 @@
-// =================================================================================
-// CLASSE QUE DEFINE A ESTRUTURA E AS AÇÕES DE UM RELATÓRIO
-// =================================================================================
 class Relatorio {
-    /**
-     * @param {object} paciente
-     * @param {object} avaliacao1
-     * @param {object} avaliacao2
-     * @param {string} [titulo='']
-     */
     constructor(paciente, avaliacao1, avaliacao2, titulo = '') {
         this.id = `rel-${new Date().getTime()}`;
         this.pacienteId = paciente.id;
@@ -18,42 +9,60 @@ class Relatorio {
         this.idAvaliacao2 = avaliacao2.id;
     }
 
-    /** Salva a instância atual do relatório na lista de relatórios. */
     salvar() {
         const relatoriosExistentes = Relatorio.listarTodos();
         relatoriosExistentes.push(this);
         localStorage.setItem('nutrifit-relatorios', JSON.stringify(relatoriosExistentes));
     }
 
-    /** @returns {Array} Uma lista de todos os relatórios salvos. */
     static listarTodos() {
         const dados = localStorage.getItem('nutrifit-relatorios');
         return dados ? JSON.parse(dados) : [];
     }
 
-    /**
-     * @param {string} id O ID do relatório a ser buscado.
-     * @returns {object | undefined} O objeto do relatório ou undefined se não for encontrado.
-     */
     static buscarPorId(id) {
         const todos = Relatorio.listarTodos();
         return todos.find(relatorio => relatorio.id === id);
     }
-}
 
+    // Novo método para validar se um relatório ainda é válido
+    static validarRelatorio(relatorio) {
+        // Busca as avaliações no localStorage (assumindo que estão armazenadas lá)
+        const avaliacoes = JSON.parse(localStorage.getItem('nutrifit-avaliacoes') || '[]');
+        
+        // Verifica se ambas as avaliações ainda existem
+        const avaliacao1Existe = avaliacoes.some(av => av.id === relatorio.idAvaliacao1);
+        const avaliacao2Existe = avaliacoes.some(av => av.id === relatorio.idAvaliacao2);
+        
+        return avaliacao1Existe && avaliacao2Existe;
+    }
+
+    // Novo método para listar apenas relatórios válidos
+    static listarValidos() {
+        const todosRelatorios = Relatorio.listarTodos();
+        const relatoriosValidos = todosRelatorios.filter(relatorio => 
+            Relatorio.validarRelatorio(relatorio)
+        );
+
+        // Se houver relatórios inválidos, remove eles do localStorage
+        if (relatoriosValidos.length !== todosRelatorios.length) {
+            localStorage.setItem('nutrifit-relatorios', JSON.stringify(relatoriosValidos));
+        }
+
+        return relatoriosValidos;
+    }
+}
 
 // =================================================================================
 // LÓGICA PRINCIPAL DA PÁGINA DE LISTAGEM DE RELATÓRIOS
 // =================================================================================
 document.addEventListener("DOMContentLoaded", () => {
 
-    // --- FUNÇÕES DE CONFIGURAÇÃO DA PÁGINA ---
-
+    // --- CONFIGURAÇÃO DA SIDEBAR ---
     const configurarSidebar = () => {
         const sidebar = document.getElementById("sidebar");
         const mainContent = document.getElementById("mainContent");
         const sidebarToggle = document.getElementById("sidebarToggle");
-
         if (!sidebar || !mainContent || !sidebarToggle) return;
 
         const estadoSalvo = localStorage.getItem("sidebarState");
@@ -70,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
+    // --- CONFIGURAÇÃO DO LOGOUT ---
     const configurarLogout = () => {
         const logoutLink = document.getElementById("logoutLink");
         if (logoutLink) {
@@ -83,14 +93,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // --- FUNÇÕES DE LÓGICA DOS RELATÓRIOS ---
-
-    /** Renderiza os cards de relatório na tela. */
+    // --- RENDERIZAÇÃO DOS CARDS ---
     const renderizarCards = (relatorios) => {
         const container = document.getElementById("relatorios-lista");
         if (!container) return;
 
-        container.innerHTML = ""; // Limpa a lista antes de renderizar
+        container.innerHTML = ""; // limpa a lista
 
         if (relatorios.length === 0) {
             container.innerHTML = '<p class="feedback-text">Nenhum relatório foi gerado ainda.</p>';
@@ -101,20 +109,29 @@ document.addEventListener("DOMContentLoaded", () => {
             const cardLink = document.createElement("a");
             cardLink.href = `Comparacao/Comparacao.html?id=${relatorio.id}`;
             cardLink.className = "relatorio-card";
+            cardLink.setAttribute("data-id", relatorio.id);
 
             cardLink.innerHTML = `
                 <div class="relatorio-content">
                     <span class="card-text">${relatorio.titulo}</span>
-                    
                     <span class="card-text">Criado em: ${formatarData(relatorio.dataCriacao)}</span>
                 </div>
-                
             `;
+
             container.appendChild(cardLink);
         });
     };
 
-    /** Configura a barra de busca para filtrar os relatórios. */
+    // --- FORMATAÇÃO DE DATA ---
+    const formatarData = (dataString) => {
+        if (!dataString) return "Data inválida";
+        const data = new Date(dataString);
+        return data.toLocaleDateString("pt-BR", {
+            day: '2-digit', month: '2-digit', year: 'numeric'
+        });
+    };
+
+    // --- BUSCA FILTRADA ---
     const configurarBusca = (relatorios) => {
         const searchInput = document.getElementById("searchInput");
         if (!searchInput) return;
@@ -129,34 +146,37 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    /** Formata uma string de data para o padrão pt-BR. */
-    const formatarData = (dataString) => {
-        if (!dataString) return "Data inválida";
-        const data = new Date(dataString);
-        return data.toLocaleDateString("pt-BR", {
-            day: '2-digit', month: '2-digit', year: 'numeric'
+    // --- DELEGATION: REMOVE CARD SE RELATÓRIO NÃO EXISTIR (mantido como fallback) ---
+    const container = document.getElementById("relatorios-lista");
+    if (container) {
+        container.addEventListener("click", (e) => {
+            const card = e.target.closest(".relatorio-card");
+            if (!card) return;
+
+            const id = card.getAttribute("data-id");
+            const relatorio = Relatorio.buscarPorId(id);
+            if (!relatorio || !Relatorio.validarRelatorio(relatorio)) {
+                card.remove();
+                alert("Este relatório não existe mais ou suas avaliações foram removidas.");
+                e.preventDefault(); // impede redirecionamento
+                return;
+            }
+            // se existir e for válido, o clique segue normalmente
         });
-    };
+    }
 
-
-    // --- INICIALIZAÇÃO DA PÁGINA ---
-
-    /** Função principal que executa todas as outras na ordem correta. */
+    // --- INICIALIZAÇÃO ---
     const inicializarPagina = () => {
         configurarSidebar();
         configurarLogout();
-        
-        // Carrega os relatórios usando o método estático da classe
-        let todosOsRelatorios = Relatorio.listarTodos();
-        
-        // Ordena os relatórios (mais recentes primeiro)
-        todosOsRelatorios.sort((a, b) => new Date(b.dataCriacao) - new Date(a.dataCriacao));
-        
-        // Exibe os relatórios na tela e configura a busca
-        renderizarCards(todosOsRelatorios);
-        configurarBusca(todosOsRelatorios);
+
+        // Agora usa o método que filtra apenas relatórios válidos
+        let relatoriosValidos = Relatorio.listarValidos();
+        relatoriosValidos.sort((a, b) => new Date(b.dataCriacao) - new Date(a.dataCriacao));
+
+        renderizarCards(relatoriosValidos);
+        configurarBusca(relatoriosValidos);
     };
 
-    // Ponto de entrada: chama a função principal
     inicializarPagina();
 });
