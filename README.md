@@ -1,47 +1,68 @@
-NutryFit
 
-NutryFit é um sistema exclusivo para nutricionistas, projetado para organizar, monitorar e comparar avaliações de pacientes de maneira eficiente. O sistema auxilia na visualização da evolução dos pacientes e no gerenciamento do fluxo de trabalho nutricional.
+# ![NutryFit](https://via.placeholder.com/20) NutryFit
 
-🌟 Funcionalidades Principais
+[![Frontend](https://img.shields.io/badge/Frontend-JS%20%26%20Bootstrap-ff69b4?style=flat-square)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Backend](https://img.shields.io/badge/Backend-Java%20Spring%20Boot-6DB33F?style=flat-square)](https://spring.io/projects/spring-boot)
+[![Database](https://img.shields.io/badge/Database-MySQL-blue?style=flat-square)](https://www.mysql.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
-Gestão de Pacientes
-Cadastro completo de pacientes com informações essenciais.
+NutryFit é um sistema **exclusivo para nutricionistas**, projetado para organizar, monitorar e comparar avaliações de pacientes de maneira eficiente, auxiliando na visualização da evolução dos pacientes e no gerenciamento do fluxo de trabalho nutricional.
 
-Criação de Avaliações
-Registre métricas corporais, hábitos alimentares e observações de cada paciente.
+---
 
-Comparação de Avaliações
-Compare duas avaliações do mesmo paciente para acompanhar a evolução ao longo do tempo.
+## 🌟 Funcionalidades Principais
 
-Busca e Filtragem
-Localize rapidamente pacientes ou relatórios com a barra de busca.
+* **Gestão de Pacientes**
+  Cadastro completo com informações essenciais de cada paciente.
 
-Relatórios Dinâmicos
-Geração de relatórios comparativos em PDF, facilitando o acompanhamento e o compartilhamento.
+* **Criação de Avaliações**
+  Registro de métricas corporais, hábitos alimentares e observações detalhadas.
 
-🛠 Tecnologias Utilizadas
+* **Comparação de Avaliações**
+  Compare duas avaliações do mesmo paciente para acompanhar a evolução.
 
-Frontend: HTML, CSS, JavaScript, Bootstrap 5
-Backend: Java Spring Boot
-Banco de Dados: MySQL (via MySQL Workbench)
-Integração: API REST para comunicação entre frontend e backend
+* **Busca e Filtragem**
+  Localize rapidamente pacientes ou relatórios por nome ou data.
 
-💾 Persistência de Dados
-Todos os dados do sistema — pacientes, avaliações e relatórios — serão armazenados em um banco MySQL, garantindo:
-Segurança e consistência dos dados
-Possibilidade de consultas avançadas e filtros
-Persistência confiável mesmo após reiniciar o servidor
+* **Relatórios Dinâmicos**
+  Geração de relatórios comparativos em PDF, prontos para exportação.
 
-🗂 Estrutura do Sistema
+---
 
-Pacientes: Cadastro, edição e consulta de informações
-Avaliações: Registro de métricas e observações detalhadas
-Relatórios: Comparativo entre avaliações, com opção de exportar PDF
-Interface: Navegação por sidebar, cards dinâmicos e barra de busca
+## 🛠 Tecnologias Utilizadas
 
-⚡ Como Usar
+| Camada         | Tecnologias                        |
+| -------------- | ---------------------------------- |
+| Frontend       | HTML, CSS, JavaScript, Bootstrap 5 |
+| Backend        | Java, Spring Boot, Spring Data JPA |
+| Banco de Dados | MySQL (via MySQL Workbench)        |
+| Integração     | API REST                           |
 
-Cadastrar Pacientes – Adicione informações completas do paciente no sistema.
-Criar Avaliações – Registre métricas, hábitos e observações periódicas.
-Comparar Avaliações – Acesse a seção de relatórios, selecione duas avaliações e visualize a evolução do paciente.
-Gerar PDF – Crie relatórios comparativos exportáveis para acompanhamento ou compartilhamento.
+---
+
+## 💾 Persistência de Dados
+
+Todos os dados do sistema (pacientes, avaliações e relatórios) são armazenados em **MySQL**, garantindo:
+
+* Segurança e consistência dos dados
+* Persistência confiável mesmo após reiniciar o servidor
+* Possibilidade de consultas avançadas e filtragens
+* 
+---
+
+## ⚡ Como Usar
+
+1. **Cadastrar Pacientes** – Adicione informações completas do paciente no sistema.
+2. **Criar Avaliações** – Registre métricas, hábitos e observações periódicas.
+3. **Comparar Avaliações** – Selecione duas avaliações e visualize a evolução do paciente.
+4. **Gerar PDF** – Exporte relatórios comparativos para acompanhamento ou compartilhamento.
+
+---
+
+## 📌 Observações
+
+* Sistema **voltado para nutricionistas**; não possui integração com e-commerce.
+* Backend em **Java Spring Boot** com **MySQL** para armazenamento seguro e persistente.
+* Frontend responsivo, amigável e otimizado para uso diário.
+
+---
