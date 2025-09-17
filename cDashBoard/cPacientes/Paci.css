@@ -682,7 +682,7 @@ textarea.form-control {
 }
 
 /* === SELECT CUSTOMIZADO === */
-select.form-control {
+select.form-control{
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
     background-position: right 12px center;
     background-repeat: no-repeat;
@@ -691,6 +691,45 @@ select.form-control {
     appearance: none;
     cursor: pointer;
 }
+ .avaliacao-item{
+    border-bottom: 1px solid #ffffff;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-card);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    flex-direction: row-reverse;
+ }
+ .avaliacao-checkbox input{
+    width: 2rem;
+    height: 1.2rem;
+ }
+ .modal-body{
+    max-height: 400px;
+    overflow-y: auto;
+ }
+ .avaliacao-content{
+    flex: 1;
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+ }
+ .avaliacao-data{
+    margin-left: 70%;
+    
+ }
+ .selecoes-info{
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 2rem;
+    font-weight: 600;
+ }
+
+
+
 
 /* === RESPONSIVIDADE === */
 @media (max-width: 768px) {
