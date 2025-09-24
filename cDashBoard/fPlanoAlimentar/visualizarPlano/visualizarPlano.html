@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="VisualizarPlano.css" />
+    <link rel="stylesheet" href="../../Global/fonts.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="VisualizarPlano.js" defer></script>
+    <title>NutryFit - Visualizar Plano Alimentar</title>
+    <link rel="icon" href="../../assets/nutrifiticon.png" type="image/png">
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar-custom" id="sidebar">
+      <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="bi bi-three-dots"></i>
+      </button>
+
+      <div class="sidebar-content">
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li class="nav-item mb-2">
+            <a href="../aInicio/Inicio.html" class="nav-link">
+              <i class="bi bi-house-door"></i>
+              <span class="nav-text">Início</span>
+            </a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="../bAvaliacao/Avaliacao.html" class="nav-link">
+              <i class="bi bi-journal-text"></i>
+              <span class="nav-text">Avaliações</span>
+            </a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="../cPacientes/Paci.html" class="nav-link">
+              <i class="bi bi-person-badge"></i>
+              <span class="nav-text">Pacientes</span>
+            </a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="../dRelatorio/Relatorio.html" class="nav-link">
+              <i class="bi bi-file-earmark-text"></i>
+              <span class="nav-text">Relatórios</span>
+            </a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="../fPlanoAlimentar/Plano.html" class="nav-link active">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fork-knife" viewBox="0 0 16 16">
+                <path d="M13 .5c0-.276-.226-.506-.498-.465-1.703.257-2.94 2.012-3 8.462a.5.5 0 0 0 .498.5c.56.01 1 .13 1 1.003v5.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5zM4.25 0a.25.25 0 0 1 .25.25v5.122a.128.128 0 0 0 .256.006l.233-5.14A.25.25 0 0 1 5.24 0h.522a.25.25 0 0 1 .25.238l.233 5.14a.128.128 0 0 0 .256-.006V.25A.25.25 0 0 1 6.75 0h.29a.5.5 0 0 1 .498.458l.423 5.07a1.69 1.69 0 0 1-1.059 1.711l-.053.022a.92.92 0 0 0-.58.884L6.47 15a.971.971 0 1 1-1.942 0l.202-6.855a.92.92 0 0 0-.58-.884l-.053-.022a1.69 1.69 0 0 1-1.059-1.712L3.462.458A.5.5 0 0 1 3.96 0z"/>
+              </svg>
+              <span class="nav-text">Planos</span>
+            </a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="../ePerfil/Perfil.html" class="nav-link">
+              <i class="bi bi-person"></i>
+              <span class="nav-text">Perfil</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="logout-section">
+          <a href="#sair" class="nav-link" id="logoutLink">
+            <i class="bi bi-box-arrow-left"></i>
+            <span class="nav-text">Sair</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content" id="mainContent">
+      <div class="container-visualizacao" id="conteudoImpressao">
+        
+        <!-- Cabeçalho -->
+        <div class="cabecalho">
+          <div class="navegacao">
+            <button class="btn-voltar" id="btnVoltar" onclick="history.back()">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+            <h1 class="titulo-pagina" id="tituloPlano">Plano alimentar</h1>
+          </div>
+          
+          <button class="btn-pdf" id="btnPDF">
+            <i class="bi bi-file-earmark-pdf"></i>
+            Imprimir PDF
+          </button>
+        </div>
+
+        <!-- Informações do Paciente -->
+        <div class="info-paciente">
+          <span id="infoPaciente">Paciente: Carregando...</span>
+        </div>
+
+        <!-- Tabela de Refeições -->
+        <div class="tabela-container">
+          <table class="tabela-plano">
+            <thead>
+              <tr>
+                <th class="col-refeicao">Refeição</th>
+                <th class="col-horario">Horário</th>
+                <th class="col-objetivo">Objetivo</th>
+                <th class="col-alimentos">Alimentos sugeridos</th>
+              </tr>
+            </thead>
+            <tbody id="tabelaRefeicoes">
+              <!-- Refeições serão carregadas aqui -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Observações -->
+        <div class="observacoes-container">
+          <h3 class="observacoes-titulo">Observações:</h3>
+          <div class="observacoes-conteudo" id="observacoesConteudo">
+            <!-- Observações serão carregadas aqui -->
+          </div>
+        </div>
+
+        <!-- Botão Excluir (apenas na visualização) -->
+        <div class="acoes-container">
+          <button class="btn-excluir-plano" id="btnExcluirPlano">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Mensagem de erro -->
+      <div class="erro-container" id="erroContainer" style="display: none;">
+        <div class="erro-content">
+          <i class="bi bi-exclamation-triangle"></i>
+          <h2>Plano não encontrado</h2>
+          <p>O plano alimentar solicitado não foi encontrado ou pode ter sido removido.</p>
+          <button class="btn btn-primary" onclick="window.location.href='Plano.html'">
+            <i class="bi bi-arrow-left me-2"></i>Voltar aos Planos
+          </button>
+        </div>
+      </div>
+    </main>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="Plano.css" />
     <link rel="stylesheet" href="../../Global/fonts.css" />
     <script src="Plano.js" defer></script>
-    <title>NutryFit - Dashboard</title>
+    <title>NutryFit - Planos Alimentares</title>
     <link rel="icon" href="../../assets/nutrifiticon.png" type="image/png">
   </head>
   <body>
@@ -27,7 +27,7 @@
       <div class="sidebar-content">
         <ul class="nav nav-pills flex-column mb-auto">
           <li class="nav-item mb-2">
-            <a href="../aInicio/Inicio.html" class="nav-link ">
+            <a href="../aInicio/Inicio.html" class="nav-link">
               <i class="bi bi-house-door"></i>
               <span class="nav-text">Início</span>
             </a>
@@ -52,9 +52,9 @@
           </li>
           <li class="nav-item mb-2">
             <a href="../fPlanoAlimentar/Plano.html" class="nav-link active">
-             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fork-knife" viewBox="0 0 16 16">
-  <path d="M13 .5c0-.276-.226-.506-.498-.465-1.703.257-2.94 2.012-3 8.462a.5.5 0 0 0 .498.5c.56.01 1 .13 1 1.003v5.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5zM4.25 0a.25.25 0 0 1 .25.25v5.122a.128.128 0 0 0 .256.006l.233-5.14A.25.25 0 0 1 5.24 0h.522a.25.25 0 0 1 .25.238l.233 5.14a.128.128 0 0 0 .256-.006V.25A.25.25 0 0 1 6.75 0h.29a.5.5 0 0 1 .498.458l.423 5.07a1.69 1.69 0 0 1-1.059 1.711l-.053.022a.92.92 0 0 0-.58.884L6.47 15a.971.971 0 1 1-1.942 0l.202-6.855a.92.92 0 0 0-.58-.884l-.053-.022a1.69 1.69 0 0 1-1.059-1.712L3.462.458A.5.5 0 0 1 3.96 0z"/>
-</svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fork-knife" viewBox="0 0 16 16">
+                <path d="M13 .5c0-.276-.226-.506-.498-.465-1.703.257-2.94 2.012-3 8.462a.5.5 0 0 0 .498.5c.56.01 1 .13 1 1.003v5.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5zM4.25 0a.25.25 0 0 1 .25.25v5.122a.128.128 0 0 0 .256.006l.233-5.14A.25.25 0 0 1 5.24 0h.522a.25.25 0 0 1 .25.238l.233 5.14a.128.128 0 0 0 .256-.006V.25A.25.25 0 0 1 6.75 0h.29a.5.5 0 0 1 .498.458l.423 5.07a1.69 1.69 0 0 1-1.059 1.711l-.053.022a.92.92 0 0 0-.58.884L6.47 15a.971.971 0 1 1-1.942 0l.202-6.855a.92.92 0 0 0-.58-.884l-.053-.022a1.69 1.69 0 0 1-1.059-1.712L3.462.458A.5.5 0 0 1 3.96 0z"/>
+              </svg>
               <span class="nav-text">Planos</span>
             </a>
           </li>
@@ -75,46 +75,213 @@
       </div>
     </div>
 
+    <!-- Conteúdo Principal -->
     <main class="main-content" id="mainContent">
-         <div class="container-planos">
-            <div class="search-container">
-                <i class="bi bi-search search-icon"></i>
-                <input type="text" class="search-input" id="searchInput" placeholder="Buscar Planos alimentares...">
-            </div>
-            <h2 class="titulo-planos">Planos Alimentares</h2>
-            
-            <div class="planos-lista" id="relatorios-lista">
-                <p class="feedback-text">Carregando planos alimentares...</p>
-                <div class="planos-content">
-                        <span class="card-text">Plano alimentar - Usuário</span>
-                        <span class="card-text">16/08/2025</span>
-                    </div>
-            </div>
+      <div class="container-planos">
+        <div class="search-container">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" class="search-input" id="searchInput" placeholder="Buscar Planos alimentares...">
         </div>
+        <h2 class="titulo-planos">Planos Alimentares</h2>
+        
+        <div class="planos-lista" id="planos-lista">
+          <!-- Os planos serão carregados aqui pelo JavaScript -->
+        </div>
+      </div>
     </main>
     
+    <!-- Botão Flutuante -->
+    <button class="btn-novo-plano" id="btnNovoPlano" data-bs-toggle="modal" data-bs-target="#modalPlano">
+      <i class="bi bi-plus-lg"></i>
+      <span>Novo Plano Alimentar</span>
+    </button>
+
+    <!-- Modal Bootstrap -->
+    <div class="modal fade" id="modalPlano" tabindex="-1" aria-labelledby="modalPlanoLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title" id="modalPlanoLabel">Criar plano alimentar</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="formPlanoAlimentar">
+              <!-- Seleção de Paciente -->
+              <div class="row mb-4">
+                <div class="col-12 col-md-6">
+                  <label for="pacienteSelect" class="form-label fw-semibold">Paciente:</label>
+                  <select class="form-select" id="pacienteSelect" required>
+                    <option value="">Selecione o paciente que será vinculado</option>
+                    <!-- Opções serão carregadas via JavaScript -->
+                  </select>
+                </div>
+              </div>
+
+              <!-- Tabela de Refeições -->
+              <div class="table-responsive mb-4">
+                <table class="tabela-refeicoes">
+                  <thead>
+                    <tr>
+                      <th class="checkbox-col"></th>
+                      <th class="refeicao-col">Refeição</th>
+                      <th class="horario-col">Horário</th>
+                      <th>Objetivo</th>
+                      <th>Alimentos sugeridos</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="checkbox-col">
+                        <input type="checkbox" class="refeicao-checkbox" name="refeicoes" value="cafe" data-refeicao="cafe">
+                      </td>
+                      <td class="refeicao-col">
+                        <input type="text" class="refeicao-nome" value="Café da manhã" data-refeicao="cafe" readonly>
+                      </td>
+                      <td class="horario-col">
+                        <div class="horario-group">
+                          <input type="time" class="horario-input" name="horario_inicio_cafe" value="06:00">
+                          <span class="horario-separator">-</span>
+                          <input type="time" class="horario-input" name="horario_fim_cafe" value="08:00">
+                        </div>
+                      </td>
+                      <td>
+                        <textarea class="campo-texto" name="objetivo_cafe" placeholder="Descreva o objetivo desta refeição..."></textarea>
+                      </td>
+                      <td>
+                        <textarea class="campo-texto" name="alimentos_cafe" placeholder="Liste os alimentos sugeridos..."></textarea>
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                      <td class="checkbox-col">
+                        <input type="checkbox" class="refeicao-checkbox" name="refeicoes" value="colacao" data-refeicao="colacao">
+                      </td>
+                      <td class="refeicao-col">
+                        <input type="text" class="refeicao-nome" value="Colação (lanche da manhã)" data-refeicao="colacao" readonly>
+                      </td>
+                      <td class="horario-col">
+                        <div class="horario-group">
+                          <input type="time" class="horario-input" name="horario_inicio_colacao" value="09:00">
+                          <span class="horario-separator">-</span>
+                          <input type="time" class="horario-input" name="horario_fim_colacao" value="10:30">
+                        </div>
+                      </td>
+                      <td>
+                        <textarea class="campo-texto" name="objetivo_colacao" placeholder="Descreva o objetivo desta refeição..."></textarea>
+                      </td>
+                      <td>
+                        <textarea class="campo-texto" name="alimentos_colacao" placeholder="Liste os alimentos sugeridos..."></textarea>
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                      <td class="checkbox-col">
+                        <input type="checkbox" class="refeicao-checkbox" name="refeicoes" value="almoco" data-refeicao="almoco">
+                      </td>
+                      <td class="refeicao-col">
+                        <input type="text" class="refeicao-nome" value="Almoço" data-refeicao="almoco" readonly>
+                      </td>
+                      <td class="horario-col">
+                        <div class="horario-group">
+                          <input type="time" class="horario-input" name="horario_inicio_almoco" value="12:00">
+                          <span class="horario-separator">-</span>
+                          <input type="time" class="horario-input" name="horario_fim_almoco" value="14:00">
+                        </div>
+                      </td>
+                      <td>
+                        <textarea class="campo-texto" name="objetivo_almoco" placeholder="Descreva o objetivo desta refeição..."></textarea>
+                      </td>
+                      <td>
+                        <textarea class="campo-texto" name="alimentos_almoco" placeholder="Liste os alimentos sugeridos..."></textarea>
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                      <td class="checkbox-col">
+                        <input type="checkbox" class="refeicao-checkbox" name="refeicoes" value="lanche" data-refeicao="lanche">
+                      </td>
+                      <td class="refeicao-col">
+                        <input type="text" class="refeicao-nome" value="Lanche da Tarde" data-refeicao="lanche" readonly>
+                      </td>
+                      <td class="horario-col">
+                        <div class="horario-group">
+                          <input type="time" class="horario-input" name="horario_inicio_lanche" value="15:00">
+                          <span class="horario-separator">-</span>
+                          <input type="time" class="horario-input" name="horario_fim_lanche" value="17:00">
+                        </div>
+                      </td>
+                      <td>
+                        <textarea class="campo-texto" name="objetivo_lanche" placeholder="Descreva o objetivo desta refeição..."></textarea>
+                      </td>
+                      <td>
+                        <textarea class="campo-texto" name="alimentos_lanche" placeholder="Liste os alimentos sugeridos..."></textarea>
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                      <td class="checkbox-col">
+                        <input type="checkbox" class="refeicao-checkbox" name="refeicoes" value="jantar" data-refeicao="jantar">
+                      </td>
+                      <td class="refeicao-col">
+                        <input type="text" class="refeicao-nome" value="Jantar" data-refeicao="jantar" readonly>
+                      </td>
+                      <td class="horario-col">
+                        <div class="horario-group">
+                          <input type="time" class="horario-input" name="horario_inicio_jantar" value="18:00">
+                          <span class="horario-separator">-</span>
+                          <input type="time" class="horario-input" name="horario_fim_jantar" value="20:00">
+                        </div>
+                      </td>
+                      <td>
+                        <textarea class="campo-texto" name="objetivo_jantar" placeholder="Descreva o objetivo desta refeição..."></textarea>
+                      </td>
+                      <td>
+                        <textarea class="campo-texto" name="alimentos_jantar" placeholder="Liste os alimentos sugeridos..."></textarea>
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                      <td class="checkbox-col">
+                        <input type="checkbox" class="refeicao-checkbox" name="refeicoes" value="ceia" data-refeicao="ceia">
+                      </td>
+                      <td class="refeicao-col">
+                        <input type="text" class="refeicao-nome" value="Ceia (opcional)" data-refeicao="ceia" readonly>
+                      </td>
+                      <td class="horario-col">
+                        <div class="horario-group">
+                          <input type="time" class="horario-input" name="horario_inicio_ceia" value="21:00">
+                          <span class="horario-separator">-</span>
+                          <input type="time" class="horario-input" name="horario_fim_ceia" value="22:00">
+                        </div>
+                      </td>
+                      <td>
+                        <textarea class="campo-texto" name="objetivo_ceia" placeholder="Descreva o objetivo desta refeição..."></textarea>
+                      </td>
+                      <td>
+                        <textarea class="campo-texto" name="alimentos_ceia" placeholder="Liste os alimentos sugeridos..."></textarea>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Observações Gerais -->
+              <div class="mb-3">
+                <label for="observacoes" class="form-label fw-semibold">Observações:</label>
+                <textarea class="form-control" id="observacoes" name="observacoes" rows="4" placeholder="Adicione observações gerais sobre o plano alimentar..."></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" form="formPlanoAlimentar" class="btn btn-custom">
+              <i class="bi bi-plus-circle me-2"></i>Criar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-    const logoutLink = document.querySelector(".logout-section .nav-link");
-
-    if (logoutLink) {
-        logoutLink.addEventListener("click", (e) => {
-            e.preventDefault();
-
-            const confirmar = confirm("Tem certeza que quer sair?");
-            if (confirmar) {
-                localStorage.removeItem("nutryfit_current_user");
-                window.location.href = "../../bTelaLogin&Cad/LoginCad.html"; // <-- ajusta o caminho aqui
-            }
-        });
-    }
-});
-
-    </script>
   </body>
 </html>
