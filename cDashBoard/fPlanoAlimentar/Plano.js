@@ -182,8 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
         salvarPlano(planoData);
 
         alert('Plano alimentar criado com sucesso!');
-        
-        // Fecha o modal
+
         const modal = bootstrap.Modal.getInstance(modalElement);
         modal.hide();
         
@@ -196,14 +195,9 @@ document.addEventListener("DOMContentLoaded", () => {
 // FUNÇÕES DE GERENCIAMENTO DE DADOS
 // =================================================================================
 
-/**
- * Carrega pacientes no select do modal
- */
 function carregarPacientes() {
     const pacienteSelect = document.getElementById('pacienteSelect');
     if (!pacienteSelect) return;
-
-    // Busca pacientes do localStorage
     const pacientes = JSON.parse(localStorage.getItem('nutrifit-pacientes') || '[]');
     
     // Limpa opções existentes (mantém a primeira)
@@ -220,47 +214,22 @@ function carregarPacientes() {
     });
 }
 
-/**
- * Obtém o nome do paciente pelo ID
- */
 function obterNomePaciente(pacienteId) {
     const pacientes = JSON.parse(localStorage.getItem('nutrifit-pacientes') || '[]');
-    const paciente = pacientes.find(p => p.id === pacienteId);
-    return paciente ? paciente.nome : 'Paciente não encontrado';
+    const pacienteEncontrado = pacientes.find(p => p.id === parseInt(pacienteId, 10));
+    return pacienteEncontrado ? pacienteEncontrado.nome : 'Paciente não encontrado';
 }
 
-/**
- * Salva o plano no localStorage
- */
 function salvarPlano(planoData) {
     const planos = JSON.parse(localStorage.getItem('nutrifit-planos') || '[]');
     planos.push(planoData);
     localStorage.setItem('nutrifit-planos', JSON.stringify(planos));
 }
 
-/**
- * Lista todos os planos salvos
- */
+
 function listarPlanos() {
     return JSON.parse(localStorage.getItem('nutrifit-planos') || '[]');
 }
-
-/**
- * Remove um plano pelo ID
- */
-// function removerPlano(planoId) {
-//     const planos = listarPlanos();
-//     const planosAtualizados = planos.filter(plano => plano.id !== planoId);
-//     localStorage.setItem('nutrifit-planos', JSON.stringify(planosAtualizados));
-// }
-
-// =================================================================================
-// RENDERIZAÇÃO DA LISTA DE PLANOS
-// =================================================================================
-
-/**
- * Carrega e exibe os planos na página
- */
 function carregarPlanos() {
     const planosList = document.getElementById('planos-lista');
     if (!planosList) return;
@@ -281,9 +250,6 @@ function carregarPlanos() {
     }
 }
 
-/**
- * Mostra estado vazio quando não há planos
- */
 function mostrarEstadoVazio() {
     const planosList = document.getElementById('planos-lista');
     
@@ -296,9 +262,6 @@ function mostrarEstadoVazio() {
             `;
         }
         
-/**
- * Cria um card para exibir o plano
- */
 function criarCardPlano(plano) {
   const card = document.createElement("a");
   card.className = "planos-card";
@@ -321,9 +284,6 @@ function criarCardPlano(plano) {
   return card;
 }
 
-// =================================================================================
-// INICIALIZAÇÃO DA PÁGINA
-// =================================================================================
 document.addEventListener("DOMContentLoaded", () => {
     // Carrega os planos ao inicializar a página
     
