@@ -313,142 +313,90 @@ class RelatorioService {
 }
 
 class PDFService {
-  static gerar() {
-    const element = document.querySelector(".main-content");
-    if (!element) {
-      console.error("Elemento .main-content não encontrado");
-      return;
+    /**
+     * Compacta o layout do elemento clonado para caber em uma página A4.
+     * @param {HTMLElement} elementoClone 
+     */
+    static compactarLayoutParaPDF(elementoClone) {
+        console.log("Aplicando layout compacto para o PDF...");
+        const seletores = [".header-section", ".resumo-section", ".detalhes-section", ".observacoes-section"];
+        seletores.forEach(seletor => {
+            const el = elementoClone.querySelector(seletor);
+            if (el) {
+                el.style.marginBottom = "12px";
+                el.style.padding = "15px";
+            }
+        });
+        // Ajustes finos
+        try {
+            elementoClone.querySelector(".resumo-title").style.marginBottom = "10px";
+            elementoClone.querySelectorAll(".detail-item").forEach(item => item.style.padding = "8px 0");
+            elementoClone.querySelectorAll(".metric-card").forEach(card => card.style.padding = "12px");
+        } catch(e) { /* Ignora erros */ }
     }
 
-    console.log("Iniciando geração do PDF...");
-
-    // Obter as configurações do perfil
-    const config = ProfileConfigService.getConfig();
-    console.log("Configurações para PDF:", config);
-
-    const clone = element.cloneNode(true);
-    clone.style.marginLeft = "0";
-    clone.style.minHeight = "auto";
-    clone.style.width = "100%";
-
-    // Aplicar logo se configurado
-    if (config.usarLogo) {
-      console.log("Adicionando logo ao PDF");
-      this.adicionarHeaderComLogo(clone);
+    static adicionarRodape(elemento, infoRodape) {
+        const rodape = document.createElement("div");
+        // ID essencial para o CSS funcionar
+        rodape.id = "pdf-footer"; 
+        rodape.style.textAlign = 'center';
+        rodape.style.fontSize = '9pt';
+        rodape.style.color = '#666';
+        rodape.style.marginTop = '20px';
+        rodape.style.paddingTop = '10px';
+        rodape.style.borderTop = '1px solid #ccc';
+        
+        const infoPrincipal = document.createElement('p');
+        infoPrincipal.style.margin = '0';
+        infoPrincipal.textContent = infoRodape;
+        
+        const dataGeracao = document.createElement('p');
+        dataGeracao.style.margin = '5px 0 0 0';
+        dataGeracao.style.fontSize = '8pt';
+        dataGeracao.textContent = `Relatório gerado em: ${new Date().toLocaleString('pt-BR')}`;
+        
+        rodape.appendChild(infoPrincipal);
+        rodape.appendChild(dataGeracao);
+        elemento.appendChild(rodape);
     }
 
-    // Aplicar rodapé se configurado
-    if (config.infoRodape && config.infoRodape.trim()) {
-      console.log("Adicionando rodapé ao PDF:", config.infoRodape);
-      this.adicionarRodape(clone, config.infoRodape);
+    /**
+     * Gera o PDF completo.
+     */
+    static gerar() {
+        const element = document.querySelector(".main-content");
+        if (!element) return;
+
+        const config = ProfileConfigService.getConfig();
+        const clone = element.cloneNode(true);
+        // REMOVE OS BOTÕES DO CLONE
+        const btnPdf = clone.querySelector(".pdf-btn");
+        const btnVoltar = clone.querySelector(".back-btn");
+        if (btnPdf) btnPdf.remove();
+        if (btnVoltar) btnVoltar.remove();
+
+        // Prepara o clone para a impressão
+        this.compactarLayoutParaPDF(clone);
+        clone.classList.add('pdf-view'); // Classe para o CSS
+        clone.style.marginLeft = "0";
+        clone.style.minHeight = "auto";
+
+        // RESTAURADO: Adiciona o rodapé HTML ao clone
+        if (config.infoRodape && config.infoRodape.trim()) {
+            this.adicionarRodape(clone, config.infoRodape);
+        }
+
+        const options = {
+            margin: 0,
+            filename: "relatorio_comparativo.pdf",
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: "pt", format: "a4", orientation: "portrait" },
+        };
+
+        html2pdf().set(options).from(clone).save();
     }
-
-    const options = {
-      margin: 5,
-      filename: "relatorio_comparacao.pdf",
-      image: { type: "jpeg", quality: 0.9 },
-      html2canvas: {
-        scale: 1.3,
-        useCORS: true,
-        scrollX: 0,
-        scrollY: 0,
-        ignoreElements: (el) => el.classList.contains("pdf-btn") || el.classList.contains("back-btn")
-      },
-      jsPDF: { 
-        unit: "pt", 
-        format: "a4", 
-        orientation: "portrait"
-      }
-    };
-
-    html2pdf().set(options).from(clone).save()
-      .then(() => {
-        console.log("PDF gerado com sucesso!");
-      })
-      .catch((error) => {
-        console.error("Erro ao gerar PDF:", error);
-      });
-  }
-
-  static adicionarHeaderComLogo(elemento) {
-    // Logo sutil no canto superior direito
-    const logoContainer = document.createElement("div");
-    logoContainer.style.cssText = `
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      z-index: 10;
-    `;
-
-    const logoImg = document.createElement("img");
-    const possiveisCaminhos = [
-      "../../../assets/nutrifiticon.png"
-    ];
-
-    logoImg.src = possiveisCaminhos[0];
-    logoImg.alt = "NutryFit";
-    logoImg.style.cssText = `
-      width: 35px;
-      height: 35px;
-      object-fit: contain;
-      opacity: 0.8;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-    `;
-
-    logoImg.onerror = function() {
-      console.warn("Logo não encontrado em:", this.src);
-      // Tenta outros caminhos
-      const currentIndex = possiveisCaminhos.indexOf(this.src);
-      if (currentIndex < possiveisCaminhos.length - 1) {
-        this.src = possiveisCaminhos[currentIndex + 1];
-      } else {
-        this.style.display = 'none';
-      }
-    };
-
-    logoContainer.appendChild(logoImg);
-    
-    // Ajustar o elemento principal para ter position relative
-    elemento.style.position = 'relative';
-    elemento.style.paddingTop = '60px'; // Dar espaço para a logo
-    
-    // Inserir a logo
-    elemento.insertBefore(logoContainer, elemento.firstChild);
-  }
-
-  static adicionarRodape(elemento, infoRodape) {
-    const rodape = document.createElement("div");
-    rodape.style.cssText = `
-      margin-top: 30px;
-      text-align: center;
-      font-size: 12px;
-      color: #666;
-      padding: 20px;
-      border-top: 2px solid #e9ecef;
-      background-color: #f8f9fa;
-      line-height: 1.6;
-      white-space: pre-line;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    `;
-
-    rodape.textContent = infoRodape;
-    
-    // Adicionar data de geração
-    const dataGeracao = document.createElement("div");
-    dataGeracao.style.cssText = `
-      margin-top: 10px;
-      font-size: 10px;
-      color: #999;
-      border-top: 1px solid #dee2e6;
-      padding-top: 10px;
-    `;
-    dataGeracao.textContent = `Relatório gerado em: ${new Date().toLocaleString('pt-BR')}`;
-    
-    rodape.appendChild(dataGeracao);
-    elemento.appendChild(rodape);
-  }
 }
-
 class UIService {
   static configurarInterface() {
     this.configurarSidebar();

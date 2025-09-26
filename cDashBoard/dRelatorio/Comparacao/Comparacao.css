@@ -385,3 +385,101 @@ body {
         margin: 5px 0;
     }
 }
+/* =============================================== */
+/* ESTILOS PARA IMPRESSÃO E GERAÇÃO DE PDF         */
+/* Estes estilos só são aplicados ao imprimir.     */
+/* =============================================== */
+@media print {
+
+    /* 1. Esconde elementos da interface que não devem aparecer no PDF */
+    .sidebar-custom, 
+    .sidebar-toggle,
+    .back-btn, 
+    .pdf-btn {
+        display: none !important;
+    }
+
+    /* 2. Reseta o corpo e remove fundos */
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 10pt; /* Reduz o tamanho da fonte base */
+    }
+
+    /* 3. Expande o conteúdo principal para ocupar toda a página */
+    .main-content {
+        margin-left: 0 !important;
+        padding: 20px !important; /* Reduz o padding para ganhar espaço */
+        width: 100% !important;
+        min-height: auto !important;
+        box-shadow: none !important;
+    }
+
+    /* 4. Remove sombras e fundos desnecessários dos containers */
+    .header-section,
+    .resumo-section,
+    .detalhes-section,
+    .observacoes-section {
+        box-shadow: none !important;
+        border: 1px solid #ddd;
+        padding: 15px !important; /* Reduz o padding interno */
+        margin-bottom: 15px !important; /* Reduz o espaço entre as seções */
+    }
+
+    /* 5. Compacta os cards de métricas */
+    .metric-card {
+        padding: 10px !important;
+        min-height: auto !important;
+        background: #f9f9f9 !important; /* Fundo claro para diferenciar */
+    }
+
+    .metric-value {
+        font-size: 1.4rem !important; /* Reduz um pouco o valor */
+    }
+    
+    .metric-card:hover {
+        transform: none !important; /* Remove efeitos de hover */
+    }
+
+    /* 6. Compacta a lista de detalhes */
+    .detail-item {
+        padding: 8px 0 !important; /* Reduz o espaçamento vertical */
+    }
+
+    /* 7. Compacta a seção de observações */
+    .observacao-card {
+        padding: 15px !important;
+    }
+    .observacao-title {
+        margin-bottom: 8px !important;
+        font-size: 1rem !important;
+    }
+
+    /* 8. Garante que não haja quebras de página indesejadas dentro dos elementos */
+    .resumo-section, .detalhes-section, .observacoes-section {
+        page-break-inside: avoid;
+    }
+
+    /* 9. Remove transições e outros efeitos visuais */
+    * {
+        transition: none !important;
+    }
+}
+
+.pdf-view {
+    position: relative;
+    /* Força uma altura mínima para o rodapé ter onde se ancorar */
+    min-height: 28cm; 
+    /* Cria um espaço VAZIO no final para o rodapé não cobrir o conteúdo */
+    padding-bottom: 100px; /* Ajuste este valor se precisar de mais/menos espaço */
+    box-sizing: border-box;
+}
+
+/* 2. "Desprende" o rodapé e o fixa na base da "âncora" */
+.pdf-view #pdf-footer {
+    position: absolute; /* Torna o rodapé um "adesivo" */
+    bottom: 40px;       /* Cola o adesivo a 40px da base da página */
+    left: 0;
+    right: 0;
+    width: 100%;        /* Garante que ocupe toda a largura */
+}

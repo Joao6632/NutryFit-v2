@@ -1,6 +1,5 @@
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
     background: white;
     font-family: var(--font-Montserrat), sans-serif;
 }
@@ -274,9 +273,7 @@ body {
     width: 250px;
 }
 
-.col-alimentos {
-    /* Width automático para ocupar espaço restante */
-}
+
 
 /* Conteúdo das células */
 .refeicao-nome {
