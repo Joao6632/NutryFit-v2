@@ -144,12 +144,14 @@ body {
     color: #333;
 }
 
-/* === BARRA DE PESQUISA === */
+/* === BARRA DE PESQUISA MODERNA === */
 .search-container {
     position: relative;
     width: 100%;
     max-width: 400px;
     margin-bottom: 15px;
+    margin-left: 200px;
+    margin-top: 20px;
 }
 
 .search-input {
@@ -185,6 +187,7 @@ body {
     font-size: 18px;
     pointer-events: none;
 }
+
 /* === TÍTULO RElatorios === */
 .titulo-relatorio {
     text-align: start;
