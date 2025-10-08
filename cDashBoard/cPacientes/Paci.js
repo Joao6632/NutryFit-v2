@@ -236,101 +236,151 @@ Detalhes de ${paciente.nome}:
     }
 
     preencherModalInfo(paciente) {
-        const modalTitulo = document.getElementById('modalInfoTitulo');
-        const modalBody = document.getElementById('modalInfoBody');
-        
-        if (!modalTitulo || !modalBody) return;
+    const modalTitulo = document.getElementById('modalInfoTitulo');
+    const modalBody = document.getElementById('modalInfoBody');
+    
+    if (!modalTitulo || !modalBody) return;
 
-        modalTitulo.textContent = `Informações - ${paciente.nome}`;
+    modalTitulo.textContent = `Informações - ${paciente.nome}`;
 
-        const idade = this.calcularIdade(paciente.dataNascimento);
+    const ultimaAvaliacao = this.buscarUltimaAvaliacao(paciente.id);
+    const dados = ultimaAvaliacao || paciente;
+    const idade = this.calcularIdade(paciente.dataNascimento);
 
-        modalBody.innerHTML = `
-            <div class="info-content">
-                <div class="info-row">
-                    <div class="info-col">
-                        <div class="info-group">
-                            <strong>Nome</strong>
-                            <span>${paciente.nome}</span>
-                        </div>
-                        <div class="info-group">
-                            <strong>Sexo</strong>
-                            <span>${paciente.sexo}</span>
-                        </div>
-                        <div class="info-group">
-                            <strong>Contato</strong>
-                            <span>${paciente.contato || 'Não informado'}</span>
-                        </div>
-                        <div class="info-group">
-                            <strong>Data de Nascimento</strong>
-                            <span>${this.formatarData(paciente.dataNascimento)}${idade ? ` - ${idade} Anos` : ''}</span>
-                        </div>
+    modalBody.innerHTML = `
+        <div class="info-content">
+            ${ultimaAvaliacao ? '<div class="badge bg-success mb-3">Dados da última avaliação</div>' : '<div class="badge bg-warning mb-3">Sem avaliações - Dados do cadastro</div>'}
+            
+            <div class="info-row">
+                <div class="info-col">
+                    <div class="info-group">
+                        <strong>Nome</strong>
+                        <span>${paciente.nome}</span>
                     </div>
-                    
-                    <div class="info-col">
-                        <div class="info-group">
-                            <strong>Atividades Físicas</strong>
-                            <span>${paciente.atividadesFisicas || 'Sedentário'}</span>
-                        </div>
-                        <div class="info-group">
-                            <strong>Hábitos de mastigação</strong>
-                            <span>${paciente.habitosMastigacao || 'Rapidamente'}</span>
-                        </div>
-                        <div class="info-group">
-                            <strong>Percentual de gordura</strong>
-                            <span>${paciente.percentualGordura ? paciente.percentualGordura + '%' : 'Não informado'}</span>
-                        </div>
-                        <div class="info-group">
-                            <strong>Peso atual</strong>
-                            <span>${paciente.peso || 'Não informado'}</span>
-                        </div>
-                        <div class="info-group">
-                            <strong>Altura atual</strong>
-                            <span>${paciente.altura || 'Não informado'}</span>
-                        </div>
-                        <div class="info-group">
-                            <strong>Frequência das refeições</strong>
-                            <span>${paciente.frequenciaRefeicoes || '3 refeições por dia'}</span>
-                        </div>
+                    <div class="info-group">
+                        <strong>Sexo</strong>
+                        <span>${paciente.sexo}</span>
                     </div>
-                    
-                    <div class="info-col">
-                        <div class="info-group">
-                            <strong>Histórico de Saúde</strong>
-                            <span>${paciente.historicoSaude || 'Sem histórico'}</span>
-                        </div>
-                        <div class="info-group">
-                            <strong>Uso de substâncias</strong>
-                            <span>${this.formatarSubstancias(paciente)}</span>
-                        </div>
-                        <div class="info-group">
-                            <strong>IMC</strong>
-                            <span>${paciente.imc ? paciente.imc + ' (automático)' : 'Não calculado'}</span>
-                        </div>
+                    <div class="info-group">
+                        <strong>Contato</strong>
+                        <span>${paciente.contato || 'Não informado'}</span>
+                    </div>
+                    <div class="info-group">
+                        <strong>Data de Nascimento</strong>
+                        <span>${this.formatarData(paciente.dataNascimento)}${idade ? ` - ${idade} Anos` : ''}</span>
+                    </div>
+                    ${ultimaAvaliacao ? `
+                    <div class="info-group">
+                        <strong>Data da Avaliação</strong>
+                        <span>${this.formatarData(ultimaAvaliacao.dataAvaliacao)}</span>
+                    </div>
+                    ` : ''}
+                </div>
+                
+                <div class="info-col">
+                    <div class="info-group">
+                        <strong>Atividades Físicas</strong>
+                        <span>${dados.atividadesFisicas || 'Não informado'}</span>
+                    </div>
+                    <div class="info-group">
+                        <strong>Hábitos de mastigação</strong>
+                        <span>${dados.habitosMastigacao || 'Não informado'}</span>
+                    </div>
+                    <div class="info-group">
+                        <strong>Percentual de gordura</strong>
+                        <span>${dados.percentualGordura ? dados.percentualGordura + '%' : 'Não informado'}</span>
+                    </div>
+                    <div class="info-group">
+                        <strong>Peso atual</strong>
+                        <span>${dados.pesoAtual || dados.peso || 'Não informado'}</span>
+                    </div>
+                    <div class="info-group">
+                        <strong>Altura atual</strong>
+                        <span>${dados.alturaAtual || dados.altura || 'Não informado'}</span>
+                    </div>
+                    <div class="info-group">
+                        <strong>Frequência das refeições</strong>
+                        <span>${dados.frequenciaRefeicoes || 'Não informado'}</span>
                     </div>
                 </div>
                 
-                <div class="metricas-section">
-                    <h4>Métricas</h4>
-                    <div class="metricas-row">
-                        <div class="metrica-item">
-                            <strong>Cintura</strong>
-                            <span>${paciente.cintura || 'Não informado'}</span>
-                        </div>
-                        <div class="metrica-item">
-                            <strong>Quadril</strong>
-                            <span>${paciente.quadril || 'Não informado'}</span>
-                        </div>
+                <div class="info-col">
+                    <div class="info-group">
+                        <strong>Histórico de Saúde</strong>
+                        <span>${dados.historicoSaude || 'Não informado'}</span>
                     </div>
-                </div>
-                
-                <div class="objetivos-section">
-                    <h4>Objetivos nutricionais</h4>
-                    <p>${paciente.objetivos || 'Não informado'}</p>
+                    <div class="info-group">
+                        <strong>Uso de substâncias</strong>
+                        <span>${this.formatarSubstanciasAvaliacao(dados)}</span>
+                    </div>
+                    <div class="info-group">
+                        <strong>IMC</strong>
+                        <span>${dados.imc || 'Não calculado'}</span>
+                    </div>
                 </div>
             </div>
-        `;
+            
+            <div class="metricas-section">
+                <h4>Métricas</h4>
+                <div class="metricas-row">
+                    <div class="metrica-item">
+                        <strong>Cintura</strong>
+                        <span>${dados.cintura || 'Não informado'}</span>
+                    </div>
+                    <div class="metrica-item">
+                        <strong>Quadril</strong>
+                        <span>${dados.quadril || 'Não informado'}</span>
+                    </div>
+                </div>
+            </div>
+            
+            ${ultimaAvaliacao && ultimaAvaliacao.observacoes ? `
+            <div class="objetivos-section">
+                <h4>Observações da avaliação</h4>
+                <p>${ultimaAvaliacao.observacoes}</p>
+            </div>
+            ` : dados.objetivos ? `
+            <div class="objetivos-section">
+                <h4>Objetivos nutricionais</h4>
+                <p>${dados.objetivos}</p>
+            </div>
+            ` : ''}
+        </div>
+    `;
+}
+buscarUltimaAvaliacao(pacienteId) {
+    try {
+        const avaliacoes = JSON.parse(localStorage.getItem('nutrifit-avaliacoes') || '[]');
+        const avaliacoesPaciente = avaliacoes
+            .filter(av => av.pacienteId === pacienteId)
+            .sort((a, b) => new Date(b.dataAvaliacao) - new Date(a.dataAvaliacao));
+        
+        return avaliacoesPaciente.length > 0 ? avaliacoesPaciente[0] : null;
+    } catch (error) {
+        console.error('Erro ao buscar última avaliação:', error);
+        return null;
     }
+}
+
+formatarSubstanciasAvaliacao(dados) {
+    if (dados.usoSubstancias) {
+        return dados.detalhesSubstancias || dados.usoSubstancias;
+    }
+    
+    if (dados.alcool || dados.drogasIlicitas) {
+        const substancias = [];
+        if (dados.alcool) substancias.push('Álcool');
+        if (dados.drogasIlicitas) substancias.push('Drogas ilícitas');
+        
+        let resultado = substancias.join(', ');
+        if (dados.detalhesSubstancias) {
+            resultado += ` - ${dados.detalhesSubstancias}`;
+        }
+        return resultado;
+    }
+    
+    return 'Nenhuma';
+}
 
     formatarSubstancias(paciente) {
         const substancias = [];
