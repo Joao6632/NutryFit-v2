@@ -186,35 +186,68 @@ class SistemaAvaliacoes {
     }
 
     preencherDadosPaciente() {
-        const pacienteId = document.getElementById('pacienteId').value;
-        if (!pacienteId) {
-            this.limparCamposPaciente();
-            return;
-        }
-
-        const paciente = this.pacientes.find(p => p.id == pacienteId);
-        if (paciente) {
-            // Preencher campos com dados do paciente
-            const campos = {
-                'alturaAtual': paciente.altura,
-                'frequenciaRefeicoes': paciente.frequenciaRefeicoes,
-                'atividadesFisicas': paciente.atividadesFisicas,
-                'habitosMastigacao': paciente.habitosMastigacao,
-                'percentualGordura': paciente.percentualGordura,
-                'objetivosNutricionais': paciente.objetivos // CORRIGIDO: Adicionar objetivos
-            };
-
-            Object.entries(campos).forEach(([campoId, valor]) => {
-                const elemento = document.getElementById(campoId);
-                if (elemento) {
-                    elemento.value = valor || '';
-                }
-            });
-            
-            // Calcular IMC se tiver peso
-            this.calcularIMC();
-        }
+    const pacienteId = document.getElementById('pacienteId').value;
+    if (!pacienteId) {
+        this.limparCamposPaciente();
+        return;
     }
+
+    const paciente = this.pacientes.find(p => p.id == pacienteId);
+    if (!paciente) return;
+
+    const ultimaAvaliacao = this.buscarUltimaAvaliacaoPaciente(pacienteId);
+    const dadosRecentes = ultimaAvaliacao || paciente;
+
+    const campos = {
+        'alturaAtual': dadosRecentes.alturaAtual || dadosRecentes.altura,
+        'pesoAtual': dadosRecentes.pesoAtual || dadosRecentes.peso,
+        'percentualGordura': dadosRecentes.percentualGordura,
+        'cintura': dadosRecentes.cintura,
+        'quadril': dadosRecentes.quadril,
+        'frequenciaRefeicoes': dadosRecentes.frequenciaRefeicoes,
+        'atividadesFisicas': dadosRecentes.atividadesFisicas,
+        'habitosMastigacao': dadosRecentes.habitosMastigacao,
+        'objetivosNutricionais': paciente.objetivos
+    };
+
+    Object.entries(campos).forEach(([campoId, valor]) => {
+        const elemento = document.getElementById(campoId);
+        if (elemento) {
+            elemento.value = valor || '';
+        }
+    });
+    
+    this.calcularIMC();
+}
+
+buscarUltimaAvaliacaoPaciente(pacienteId) {
+    try {
+        const avaliacoesPaciente = this.avaliacoes
+            .filter(av => av.pacienteId == pacienteId)
+            .sort((a, b) => new Date(b.dataAvaliacao) - new Date(a.dataAvaliacao));
+        
+        return avaliacoesPaciente.length > 0 ? avaliacoesPaciente[0] : null;
+    } catch (error) {
+        console.error('Erro ao buscar última avaliação:', error);
+        return null;
+    }
+}
+
+limparCamposPaciente() {
+    const campos = [
+        'alturaAtual', 'pesoAtual', 'percentualGordura', 'cintura', 'quadril',
+        'frequenciaRefeicoes', 'atividadesFisicas', 'habitosMastigacao', 
+        'objetivosNutricionais'
+    ];
+    
+    campos.forEach(campo => {
+        const elemento = document.getElementById(campo);
+        if (elemento) elemento.value = '';
+    });
+    
+    const imcElement = document.getElementById('imc');
+    if (imcElement) imcElement.value = '';
+}
 
     limparCamposPaciente() {
         const campos = ['alturaAtual', 'frequenciaRefeicoes', 'atividadesFisicas', 'habitosMastigacao', 'percentualGordura', 'objetivosNutricionais'];

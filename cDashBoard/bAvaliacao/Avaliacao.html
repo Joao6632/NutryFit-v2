@@ -27,15 +27,15 @@
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="../bAvaliacao/Avaliacao.html" class="nav-link active">
-                        <i class="bi bi-journal-text"></i>
-                        <span class="nav-text">Avaliações</span>
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
                     <a href="../cPacientes/Paci.html" class="nav-link">
                         <i class="bi bi-person-badge"></i>
                         <span class="nav-text">Pacientes</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="../bAvaliacao/Avaliacao.html" class="nav-link active">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="nav-text">Avaliações</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
@@ -132,12 +132,12 @@
                                 <div class="mb-3">
                                     <label for="frequenciaRefeicoes" class="form-label">Frequência das refeições</label>
                                     <select class="form-control" id="frequenciaRefeicoes">
-                                        <option value="" disabled selected>Selecione a frequência do paciente</option>
-                                        <option value="2 refeições por dia">2 refeições por dia</option>
-                                        <option value="3 refeições por dia">3 refeições por dia</option>
-                                        <option value="4 refeições por dia">4 refeições por dia</option>
-                                        <option value="5 refeições por dia">5 refeições por dia</option>
-                                        <option value="6+ refeições por dia">6+ refeições por dia</option>
+                                        <option value="">Selecione a frequência das refeições</option>
+                                        <option value="Pula refeições / Padrão irregular">Pula refeições / Padrão irregular</option>
+                                        <option value="1 a 2 refeições principais">1 a 2 refeições principais</option>
+                                        <option value="3 refeições principais">3 refeições principais</option>
+                                        <option value="3 refeições principais e 1 lanche">3 refeições principais e 1 lanche</option>
+                                        <option value="3 refeições principais e 2 ou mais lanches">3 refeições principais e 2 ou mais lanches</option>
                                     </select>
                                 </div>
                                 
@@ -158,24 +158,24 @@
                                 <div class="mb-3">
                                     <label for="atividadesFisicas" class="form-label">Atividades Físicas</label>
                                     <select class="form-control" id="atividadesFisicas">
-                                        <option value="" disabled selected>O paciente está se exercitando?</option>
-                                        <option value="Sedentário">Sedentário</option>
-                                        <option value="Leve">Atividade leve</option>
-                                        <option value="Moderado">Atividade moderada</option>
-                                        <option value="Intenso">Atividade intensa</option>
-                                        <option value="Muito intenso">Muito intenso</option>
+                                        
+                                        <option value="">Selecione o nível de atividade</option>
+                                            <option value="Sedentário">Sedentário</option>
+                                            <option value="Leve">Leve</option>
+                                            <option value="Moderado">Moderado</option>
+                                            <option value="Intenso">Intenso</option>
+                                            <option value="Atleta">Atleta</option>
                                     </select>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="habitosMastigacao" class="form-label">Hábitos de mastigação</label>
                                     <select class="form-control" id="habitosMastigacao">
-                                        <option value="" disabled selected>Como o paciente está mastigando?</option>
-                                        <option value="Muito rapidamente">Muito rapidamente</option>
-                                        <option value="Rapidamente">Rapidamente</option>
-                                        <option value="Normal">Normal</option>
-                                        <option value="Devagar">Devagar</option>
+                                        <option value="" disabled selected>Selecione o hábito de mastigação</option>
                                         <option value="Muito devagar">Muito devagar</option>
+                                        <option value="Normal/Adequada">Normal/Adequada</option>
+                                        <option value="Rápida">Rápida</option>
+                                        <option value="Muito rápida/Apressada">Muito rápida/Apressada</option>
                                     </select>
                                 </div>
                                 
