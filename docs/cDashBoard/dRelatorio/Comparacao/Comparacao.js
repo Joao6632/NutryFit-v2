@@ -16,6 +16,18 @@ class DataService {
   static getAvaliacaoById(id) {
     return this.getAllAvaliacoes().find(av => av.id === id);
   }
+
+  /**
+   * MÉTODO MOVIDO PARA O LUGAR CORRETO
+   * Remove um relatório do localStorage pelo seu ID.
+   * @param {string} id O ID do relatório a ser excluído.
+   */
+  static deleteRelatorioById(id) {
+    const dados = localStorage.getItem("nutrifit-relatorios");
+    const todos = dados ? JSON.parse(dados) : [];
+    const relatoriosRestantes = todos.filter(relatorio => relatorio.id !== id);
+    localStorage.setItem("nutrifit-relatorios", JSON.stringify(relatoriosRestantes));
+  }
 }
 
 // =================================================================================
@@ -310,6 +322,13 @@ class RelatorioService {
     DetailsRenderer.render(comparador);
     ObservationsRenderer.render(comparador);
   }
+  static excluirRelatorio(relatorioId) {
+   
+    DataService.deleteRelatorioById(relatorioId);
+    
+    
+    window.location.href = "../Relatorio.html"; 
+  }
 }
 
 class PDFService {
@@ -398,10 +417,11 @@ class PDFService {
     }
 }
 class UIService {
-  static configurarInterface() {
+  static configurarInterface(relatorioId) {
     this.configurarSidebar();
     this.configurarLogout();
     this.configurarPDF();
+    this.configurarExclusao(relatorioId);
   }
 
   static configurarSidebar() {
@@ -415,6 +435,26 @@ class UIService {
         mainContent.classList.toggle("sidebar-collapsed");
       });
     }
+  }
+  static configurarExclusao(relatorioId) {
+    const btnExcluir = document.getElementById("btnExcluirRelatorio");
+    const modalEl = document.getElementById("modalConfirmarExclusao");
+    const btnConfirmar = document.getElementById("btnConfirmarExclusao");
+    
+    // Se algum dos elementos não existir, não faz nada
+    if (!btnExcluir || !modalEl || !btnConfirmar) {
+      return;
+    }
+
+    const modal = new bootstrap.Modal(modalEl);
+
+    btnExcluir.addEventListener("click", () => {
+      modal.show();
+    });
+
+    btnConfirmar.addEventListener("click", () => {
+      RelatorioService.excluirRelatorio(relatorioId);
+    });
   }
 
   static configurarLogout() {
@@ -462,17 +502,18 @@ class UIService {
 // =================================================================================
 
 class RelatorioController {
-  static inicializar() {
+ static inicializar() {
     try {
       console.log("Inicializando relatório...");
-      
-      UIService.configurarInterface();
       
       const relatorioId = this.obterIdDaURL();
       if (!relatorioId) {
         throw new Error("ID do relatório não foi encontrado na URL.");
       }
 
+      
+      UIService.configurarInterface(relatorioId); 
+      
       console.log("ID do relatório:", relatorioId);
 
       const comparador = RelatorioService.carregarDados(relatorioId);
@@ -480,7 +521,6 @@ class RelatorioController {
       
       console.log("Relatório carregado com sucesso!");
       
-      // Debug das configurações (remover em produção)
       ProfileConfigService.debugConfig();
       
     } catch (error) {
@@ -504,18 +544,3 @@ document.addEventListener("DOMContentLoaded", () => {
   RelatorioController.inicializar();
 });
 
-// =================================================================================
-// 9. FUNÇÕES GLOBAIS PARA DEBUG (pode remover em produção)
-// =================================================================================
-
-// Para usar no console do navegador
-window.debugNutryfit = {
-  config: () => ProfileConfigService.debugConfig(),
-  gerarPDF: () => PDFService.gerar(),
-  localStorage: () => {
-    console.log("=== TODOS OS DADOS DO LOCALSTORAGE ===");
-    Object.keys(localStorage).forEach(key => {
-      console.log(`${key}:`, localStorage.getItem(key));
-    });
-  }
-};

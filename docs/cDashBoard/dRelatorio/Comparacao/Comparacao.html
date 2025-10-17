@@ -48,7 +48,7 @@
             </a>
           </li>
           <li class="nav-item mb-2">
-            <a href="../dRelatorio/Relatorio.html" class="nav-link active">
+            <a href="../../dRelatorio/Relatorio.html" class="nav-link active">
               <i class="bi bi-file-earmark-text"></i>
               <span class="nav-text">Relatórios</span>
             </a>
@@ -215,6 +215,37 @@
           </div>
         </div>
       </div>
+
+      <button class="btn-excluir-flutuante" id="btnExcluirRelatorio" title="Excluir Relatório">
+      <i class="bi bi-trash3"></i>
+    </button>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div class="modal fade modal-excluir" id="modalConfirmarExclusao" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              Confirmar Exclusão
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <i class="bi bi-trash3-fill"></i>
+            <h5 class="mb-3">Tem certeza que deseja excluir este relatório?</h5>
+            <p class="text-muted mb-0">Esta ação não pode ser desfeita. O relatório será permanentemente removido.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-confirmar-exclusao" id="btnConfirmarExclusao">
+              <i class="bi bi-trash3 me-2"></i>
+              Excluir Relatório
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     </div>
 

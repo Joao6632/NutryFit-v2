@@ -483,3 +483,105 @@ body {
     right: 0;
     width: 100%;        /* Garante que ocupe toda a largura */
 }
+
+.btn-excluir-flutuante {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        transition: all 0.3s ease;
+        z-index: 1000;
+      }
+
+      .btn-excluir-flutuante:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(220, 53, 69, 0.6);
+        background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+      }
+
+      .btn-excluir-flutuante:active {
+        transform: scale(0.95);
+      }
+
+      /* Ocultar botão flutuante na impressão/PDF */
+      @media print {
+        .btn-excluir-flutuante {
+          display: none !important;
+        }
+      }
+
+      .pdf-view .btn-excluir-flutuante {
+        display: none !important;
+      }
+
+      /* Modal customizado para confirmação */
+      .modal-excluir .modal-content {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .modal-excluir .modal-header {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        color: white;
+        border-radius: 15px 15px 0 0;
+        border: none;
+      }
+
+      .modal-excluir .modal-title {
+        font-weight: 600;
+      }
+
+      .modal-excluir .btn-close {
+        filter: brightness(0) invert(1);
+      }
+
+      .modal-excluir .modal-body {
+        padding: 30px;
+        text-align: center;
+      }
+
+      .modal-excluir .modal-body i {
+        font-size: 48px;
+        color: #dc3545;
+        margin-bottom: 20px;
+      }
+
+      .modal-excluir .modal-footer {
+        border: none;
+        padding: 20px 30px;
+      }
+
+      .modal-excluir .btn-confirmar-exclusao {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        border: none;
+        padding: 10px 30px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .modal-excluir .btn-confirmar-exclusao:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+      }
+
+      .modal-excluir .btn-cancelar {
+        background: #6c757d;
+        border: none;
+        padding: 10px 30px;
+        border-radius: 8px;
+        font-weight: 500;
+        color: white;
+      }

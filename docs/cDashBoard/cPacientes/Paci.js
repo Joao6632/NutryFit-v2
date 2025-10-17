@@ -595,6 +595,7 @@ formatarSubstanciasAvaliacao(dados) {
             }
         }
     }
+    
 
     excluirPaciente(id) {
         const paciente = this.pacientes.find(p => p.id === id);
@@ -959,7 +960,28 @@ gerarComparativo() {
         }
     }
 }
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Seleciona o campo de altura pelo seu ID.
+  const campoAltura = document.getElementById('altura');
 
+  // 2. Garante que o campo exista na página antes de adicionar o evento.
+  if (campoAltura) {
+    // 3. Adiciona o "ouvinte de evento" que aciona a função a cada 'input' do usuário.
+    campoAltura.addEventListener('input', aplicarMascaraAltura);
+  }
+});
+
+function aplicarMascaraAltura(event) {
+
+  const input = event.target;
+  let valor = input.value.replace(/\D/g, '');
+  valor = valor.substring(0, 3);
+
+  if (valor.length > 1) {
+    valor = valor.replace(/^(\d)(\d{1,2})$/, '$1.$2');
+  }
+  input.value = valor;
+}
 // Inicializar sistema quando a página carregar
 document.addEventListener('DOMContentLoaded', () => {
     window.sistemaPacientes = new SistemaPacientes();
